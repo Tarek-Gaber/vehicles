@@ -1,7 +1,12 @@
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
+import { useTranslation } from "./hooks";
+
 function App() {
+  const { t } = useTranslation();
   return (
     <>
-      <h1>App</h1>
+      <LanguageSwitcher />
+      <h1>{t("pages.dashboard.title")}</h1>
     </>
   );
 }
