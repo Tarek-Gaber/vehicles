@@ -8,5 +8,8 @@
   "validationError": "يرجى التحقق من النموذج والمحاولة مرة أخرى.",
   "sessionExpired": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
   "somethingWentWrong": "حدث خطأ ما",
-  "tryAgain": "يرجى المحاولة مرة أخرى"
+  "tryAgain": "يرجى المحاولة مرة أخرى",
+  "queryError": "حدث خطأ أثناء جلب البيانات",
+  "mutationError": "حدث خطأ",
+  "mutationSuccess": "تمت العملية بنجاح"
 }

@@ -8,5 +8,8 @@
   "validationError": "Please check the form and try again.",
   "sessionExpired": "Your session has expired. Please login again.",
   "somethingWentWrong": "Something went wrong",
-  "tryAgain": "Please try again"
+  "tryAgain": "Please try again",
+  "queryError": "An error occurred while fetching data",
+  "mutationError": "An error occurred",
+  "mutationSuccess": "Operation completed successfully"
 }

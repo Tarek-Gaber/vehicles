@@ -1,17 +1,72 @@
 import { useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from '@tanstack/react-query';
+import toast, { Toaster } from 'react-hot-toast';
+import i18n from '../lib/i18n';
 
 interface QueryProviderProps {
   children: React.ReactNode;
 }
 
 /**
- * TanStack Query Provider with optimized defaults
+ * TanStack Query Provider with optimized defaults and global error/success handling
+ * 
+ * Toast notifications can be controlled via meta options:
+ * 
+ * @example
+ * // Disable error toast for a specific query
+ * useQuery({
+ *   queryKey: ['example'],
+ *   queryFn: fetchData,
+ *   meta: { disableErrorToast: true }
+ * })
+ * 
+ * @example
+ * // Disable success toast for a specific mutation
+ * useMutation({
+ *   mutationFn: saveData,
+ *   meta: { disableSuccessToast: true }
+ * })
+ * 
+ * @example
+ * // Custom success message
+ * useMutation({
+ *   mutationFn: saveData,
+ *   meta: { successMessage: 'Data saved successfully!' }
+ * })
  */
 export function QueryProvider({ children }: QueryProviderProps) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
+        queryCache: new QueryCache({
+          onError: (error, query) => {
+            // Check if error toast is disabled via meta
+            if (query.meta?.disableErrorToast) {
+              return;
+            }
+            // Global error handler for all queries
+            toast.error(error.message || i18n.t('errors.queryError'));
+          },
+        }),
+        mutationCache: new MutationCache({
+          onError: (error, _variables, _context, mutation) => {
+            // Check if error toast is disabled via meta
+            if (mutation.meta?.disableErrorToast) {
+              return;
+            }
+            // Global error handler for all mutations
+            toast.error(error.message || i18n.t('errors.mutationError'));
+          },
+          onSuccess: (_data, _variables, _context, mutation) => {
+            // Check if success toast is disabled via meta
+            if (mutation.meta?.disableSuccessToast) {
+              return;
+            }
+            // Get custom success message from meta or use default
+            const successMessage = mutation.meta?.successMessage as string | undefined;
+            toast.success(successMessage || i18n.t('errors.mutationSuccess'));
+          },
+        }),
         defaultOptions: {
           queries: {
             // Stale time: 1 minute (data considered fresh for 1 min)
@@ -49,6 +104,30 @@ export function QueryProvider({ children }: QueryProviderProps) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: '#10b981',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            duration: 4000,
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
       {/* React Query Devtools: Install @tanstack/react-query-devtools to enable */}
     </QueryClientProvider>
   );

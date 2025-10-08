@@ -71,6 +71,10 @@ export const useLogin = () => {
       // Navigate to dashboard or home
       navigate("/", { replace: true });
     },
+    meta: {
+      // Disable default success toast since we're navigating
+      disableSuccessToast: true,
+    },
   });
 };
 
@@ -106,6 +110,10 @@ export const useRegister = () => {
       // Navigate to dashboard or home
       navigate("/", { replace: true });
     },
+    meta: {
+      // Disable default success toast since we're navigating
+      disableSuccessToast: true,
+    },
   });
 };
 
@@ -119,7 +127,7 @@ export const useLogout = () => {
 
   return useMutation({
     mutationFn: async (): Promise<void> => {
-      // await axiosInstance.post(endpoints.auth.logout);
+      await axiosInstance.post(endpoints.auth.logout);
     },
     onSuccess: () => {
       // Clear auth state and tokens
@@ -130,6 +138,10 @@ export const useLogout = () => {
 
       // Redirect to login
       navigate("/login", { replace: true });
+    },
+    meta: {
+      // Disable default success toast since we're navigating
+      disableSuccessToast: true,
     },
   });
 };
@@ -174,6 +186,9 @@ export const useUpdateProfile = () => {
 
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.profile() });
     },
+    meta: {
+      successMessage: 'Profile updated successfully',
+    },
   });
 };
 
@@ -184,6 +199,9 @@ export const useChangePassword = () => {
   return useMutation({
     mutationFn: async (data: ChangePasswordRequest): Promise<void> => {
       await axiosInstance.post(endpoints.auth.changePassword, data);
+    },
+    meta: {
+      successMessage: 'Password changed successfully',
     },
   });
 };
