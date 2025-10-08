@@ -1,11 +1,12 @@
 import type { InternalAxiosRequestConfig } from 'axios';
+import { tokenManager } from '../../lib/auth/tokenManager';
 
 /**
  * Request interceptor to attach tokens, language, and custom headers
  */
 export const requestInterceptor = (config: InternalAxiosRequestConfig) => {
-  // Get token from localStorage (adjust storage method as needed)
-  const token = localStorage.getItem('accessToken');
+  // Get token from cookies
+  const token = tokenManager.getAccessToken();
   
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

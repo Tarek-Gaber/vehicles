@@ -1,5 +1,8 @@
 import type { AxiosResponse, AxiosError } from "axios";
 import { axiosInstance } from "./index";
+import { tokenManager } from "../../lib/auth/tokenManager";
+import { store } from "../../store";
+import { logout as logoutAction } from "../../store/slices/authSlice";
 
 /**
  * Response interceptor to handle successful responses
@@ -19,7 +22,7 @@ export const responseErrorInterceptor = async (error: AxiosError) => {
     originalRequest._retry = true;
 
     try {
-      const refreshToken = localStorage.getItem("refreshToken");
+      const refreshToken = tokenManager.getRefreshToken();
 
       if (!refreshToken) {
         // No refresh token, redirect to login
@@ -32,8 +35,13 @@ export const responseErrorInterceptor = async (error: AxiosError) => {
         refreshToken,
       });
 
-      const { accessToken } = response.data;
-      localStorage.setItem("accessToken", accessToken);
+      const { accessToken, refreshToken: newRefreshToken } = response.data;
+      
+      // Update tokens in cookies
+      tokenManager.setAccessToken(accessToken);
+      if (newRefreshToken) {
+        tokenManager.setRefreshToken(newRefreshToken);
+      }
 
       // Retry original request with new token
       originalRequest.headers.Authorization = `Bearer ${accessToken}`;
@@ -68,8 +76,11 @@ export const responseErrorInterceptor = async (error: AxiosError) => {
  * Handle authentication errors - clear tokens and redirect to login
  */
 const handleAuthError = () => {
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
+  // Clear tokens from cookies
+  tokenManager.clearTokens();
+  
+  // Dispatch logout action to Redux
+  store.dispatch(logoutAction());
 
   // Redirect to login (adjust path as needed)
   if (typeof window !== "undefined") {

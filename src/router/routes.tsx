@@ -1,23 +1,40 @@
-import { createBrowserRouter } from "react-router";
-import App from "../App";
-// import { ProtectedRoute } from "./ProtectedRoute";
+import { createBrowserRouter, Navigate } from "react-router";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { ConditionalRoute } from "./ConditionalRoute";
+import { LoginPage } from "../pages/LoginPage";
+import { DashboardPage } from "../pages/DashboardPage";
+import { LandingPage } from "../pages/LandingPage";
+import { AdminPage } from "../pages/AdminPage";
+import { UnauthorizedPage } from "../pages/UnauthorizedPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ConditionalRoute
+        authenticatedElement={<DashboardPage />}
+        unauthenticatedElement={<LandingPage />}
+      />
+    ),
   },
-  // Example protected route structure:
-  // {
-  //   path: "/dashboard",
-  //   element: (
-  //     <ProtectedRoute>
-  //       <DashboardPage />
-  //     </ProtectedRoute>
-  //   ),
-  // },
-  // {
-  //   path: "/login",
-  //   element: <LoginPage />,
-  // },
+  {
+    path: "/admin",
+    element: (
+      <ProtectedRoute roles="admin">
+        <AdminPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/unauthorized",
+    element: <UnauthorizedPage />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
+  },
 ]);

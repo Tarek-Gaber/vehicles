@@ -6,7 +6,7 @@ export interface User {
   id: string | number;
   email: string;
   name: string;
-  role: 'admin' | 'user' | 'investor';
+  role: "admin" | "investor" | "employee" | "dv_manager" | "department_manager";
   avatar?: string;
   createdAt: string;
   updatedAt: string;
@@ -27,7 +27,7 @@ export interface RegisterRequest {
   email: string;
   password: string;
   name: string;
-  role?: 'user' | 'investor';
+  role?: "user" | "investor";
 }
 
 export interface RegisterResponse {
