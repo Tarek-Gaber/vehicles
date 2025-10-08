@@ -3,6 +3,8 @@ import { Button } from "../components/ui/button";
 import { useLogout } from "../api/queries/auth";
 import { Link } from "react-router";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import { ThemeSwitcherDemo } from "@/components/ThemeSwitcherDemo";
 
 export function DashboardPage() {
   const { user, role } = useAuth();
@@ -13,13 +15,16 @@ export function DashboardPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">Dashboard</h1>
-          <LanguageSwitcher />
-          <Button onClick={() => logout.mutate()} variant="outline">
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeSwitcher />
+            <LanguageSwitcher />
+            <Button onClick={() => logout.mutate()} variant="outline">
+              Logout
+            </Button>
+          </div>
         </div>
 
-        <div className="p-6 bg-white rounded-lg shadow">
+        <div className="p-6 bg-card rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">User Information</h2>
           <div className="space-y-2">
             <p>
@@ -43,7 +48,9 @@ export function DashboardPage() {
           </div>
         </div>
 
-        <div className="p-6 bg-blue-50 rounded-lg">
+        <ThemeSwitcherDemo />
+
+        <div className="p-6 bg-blue-50 dark:bg-blue-950 rounded-lg">
           <h3 className="text-lg font-semibold mb-2">Access Level</h3>
           <p>
             You are viewing the general dashboard accessible to all

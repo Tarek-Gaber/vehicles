@@ -127,7 +127,7 @@ export const useLogout = () => {
 
   return useMutation({
     mutationFn: async (): Promise<void> => {
-      await axiosInstance.post(endpoints.auth.logout);
+      // await axiosInstance.post(endpoints.auth.logout);
     },
     onSuccess: () => {
       // Clear auth state and tokens
@@ -187,7 +187,7 @@ export const useUpdateProfile = () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.profile() });
     },
     meta: {
-      successMessage: 'Profile updated successfully',
+      successMessage: "Profile updated successfully",
     },
   });
 };
@@ -201,7 +201,7 @@ export const useChangePassword = () => {
       await axiosInstance.post(endpoints.auth.changePassword, data);
     },
     meta: {
-      successMessage: 'Password changed successfully',
+      successMessage: "Password changed successfully",
     },
   });
 };

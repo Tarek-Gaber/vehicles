@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useLogin } from "../api/queries/auth";
 import { Button } from "../components/ui/button";
+import { ThemeSwitcher } from "../components/ThemeSwitcher";
+import { LanguageSwitcher } from "../components/LanguageSwitcher";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,12 +15,18 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center">Login</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 relative">
+      {/* Header with theme and language switchers */}
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <ThemeSwitcher />
+        <LanguageSwitcher />
+      </div>
+
+      <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold text-center text-foreground">Login</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium">
+            <label htmlFor="email" className="block text-sm font-medium text-foreground">
               Email
             </label>
             <input
@@ -26,12 +34,12 @@ export function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-3 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
               required
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium">
+            <label htmlFor="password" className="block text-sm font-medium text-foreground">
               Password
             </label>
             <input
@@ -39,7 +47,7 @@ export function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-3 py-2 border border-input bg-background text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
               required
             />
           </div>
@@ -52,7 +60,7 @@ export function LoginPage() {
             </p>
           )}
         </form>
-        <p className="text-sm text-gray-600 text-center">
+        <p className="text-sm text-muted-foreground text-center">
           Use any email/password for demo (mock login)
         </p>
       </div>
