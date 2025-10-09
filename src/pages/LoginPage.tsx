@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { useLogin } from "../api/queries/auth";
 import { Button } from "../components/ui/button";
 import { ThemeSwitcher } from "../components/ThemeSwitcher";
 import { LanguageSwitcher } from "../components/LanguageSwitcher";
+import { AnimatedPage } from "../components/AnimatedPage";
+import { staggerContainerVariants, staggerItemVariants } from "../lib/animations";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,16 +18,35 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 relative">
+    <AnimatedPage className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 relative">
       {/* Header with theme and language switchers */}
-      <div className="absolute top-4 right-4 flex items-center gap-2">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="absolute top-4 right-4 flex items-center gap-2"
+      >
         <ThemeSwitcher />
         <LanguageSwitcher />
-      </div>
+      </motion.div>
 
-      <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center text-foreground">Login</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <motion.div
+        variants={staggerContainerVariants}
+        initial="initial"
+        animate="animate"
+        className="w-full max-w-md p-8 space-y-6 bg-card rounded-lg shadow-md"
+      >
+        <motion.h1
+          variants={staggerItemVariants}
+          className="text-2xl font-bold text-center text-foreground"
+        >
+          Login
+        </motion.h1>
+        <motion.form
+          variants={staggerItemVariants}
+          onSubmit={handleSubmit}
+          className="space-y-4"
+        >
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-foreground">
               Email
@@ -51,19 +73,24 @@ export function LoginPage() {
               required
             />
           </div>
-          <Button type="submit" className="w-full" disabled={login.isPending}>
-            {login.isPending ? "Logging in..." : "Login"}
-          </Button>
+          <motion.div whileTap={{ scale: 0.98 }}>
+            <Button type="submit" className="w-full" disabled={login.isPending}>
+              {login.isPending ? "Logging in..." : "Login"}
+            </Button>
+          </motion.div>
           {login.isError && (
             <p className="text-sm text-red-600">
               Login failed. Please check your credentials.
             </p>
           )}
-        </form>
-        <p className="text-sm text-muted-foreground text-center">
+        </motion.form>
+        <motion.p
+          variants={staggerItemVariants}
+          className="text-sm text-muted-foreground text-center"
+        >
           Use any email/password for demo (mock login)
-        </p>
-      </div>
-    </div>
+        </motion.p>
+      </motion.div>
+    </AnimatedPage>
   );
 }

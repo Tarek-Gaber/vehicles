@@ -2,6 +2,7 @@ import { Navigate, useLocation } from "react-router";
 import type { ReactNode } from "react";
 import { useAuth } from "../hooks/useAuth";
 import type { UserRole } from "../store/slices/authSlice";
+import { LoadingOverlay } from "../components/LoadingSpinner";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -20,11 +21,7 @@ export function ProtectedRoute({
 
   // Show loading state while checking authentication
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
+    return <LoadingOverlay />;
   }
 
   // Redirect to login if not authenticated
