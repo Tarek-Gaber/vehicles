@@ -27,7 +27,7 @@ export const MOCK_LOGIN_RESPONSE: LoginResponse = {
     id: "123",
     name: "Mock User",
     email: "mock@bena.com",
-    role: "investor",
+    role: "admin",
     createdAt: "2025-01-01T00:00:00.000Z",
     updatedAt: "2025-01-01T00:00:00.000Z",
   },
@@ -73,7 +73,7 @@ export const useLogin = () => {
     },
     meta: {
       // Disable default success toast since we're navigating
-      disableSuccessToast: true,
+      disableSuccessToast: false,
     },
   });
 };
