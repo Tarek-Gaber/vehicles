@@ -7,6 +7,8 @@ import {
   SelectValue,
 } from "./components/ui/select";
 import { useTranslation } from "./hooks";
+import 'react-phone-number-input/style.css';
+
 
 function App() {
   const { t } = useTranslation();
