@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Controller, useFormContext,type FieldValues,type Path } from "react-hook-form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";

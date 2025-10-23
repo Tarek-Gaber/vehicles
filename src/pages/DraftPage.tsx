@@ -32,7 +32,7 @@ export default function DraftPage() {
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: "fuck",
+      email: "hello",
       amount: "off",
       status: "pending",
       agree: true,
