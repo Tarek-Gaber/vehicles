@@ -34,6 +34,7 @@ export function VehiclesTableExample() {
       header: "Vehicle Name",
       sortable: true,
       width: "200px",
+      className: "font-semibold",
     },
     {
       key: "model",
@@ -47,9 +48,9 @@ export function VehiclesTableExample() {
       sortable: true,
       cellType: "badge",
       badgeVariant: (status) => {
-        if (status === "active") return "outline";
-        if (status === "maintenance") return "secondary";
-        return "destructive";
+        if (status === "active") return "success";
+        if (status === "maintenance") return "gray";
+        return "error";
       },
       align: "center",
       width: "120px",
