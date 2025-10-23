@@ -16,7 +16,7 @@ import {
 export function VehiclesTableExample() {
   // Table state management
   const table = useTableState({ defaultPageSize: 10 });
-  
+
   // Selection state (not part of table state)
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
 
@@ -47,7 +47,7 @@ export function VehiclesTableExample() {
       sortable: true,
       cellType: "badge",
       badgeVariant: (status) => {
-        if (status === "active") return "default";
+        if (status === "active") return "outline";
         if (status === "maintenance") return "secondary";
         return "destructive";
       },

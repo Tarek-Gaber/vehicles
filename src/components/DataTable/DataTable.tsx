@@ -275,12 +275,12 @@ export function DataTable<TData = any>({
       <div className="border rounded-lg">
         <Table>
           <TableHeader
-            className={cn(stickyHeader && "sticky top-0 bg-background z-10")}
+            className={cn(stickyHeader && "sticky top-0 overflow-hidden z-10")}
           >
             <TableRow>
               {/* Selection column */}
               {selectable && (
-                <TableHead className="w-12">
+                <TableHead className="w-12 rounded-ss-lg">
                   <Checkbox
                     checked={allSelected}
                     onCheckedChange={handleSelectAll}
@@ -299,8 +299,13 @@ export function DataTable<TData = any>({
                     column.align === "center" && "text-center",
                     column.align === "right" && "text-right",
                     column.sortable &&
-                      "cursor-pointer select-none hover:bg-muted/50",
-                    sortConfig?.key === column.key && "bg-muted/50"
+                      "cursor-pointer select-none hover:bg-primary/90",
+                    sortConfig?.key === column.key && "bg-primary/90",
+                    columns.indexOf(column) === 0 &&
+                      !selectable &&
+                      "rounded-ts-lg",
+                    columns.indexOf(column) === columns.length - 1 &&
+                      "rounded-se-lg"
                   )}
                   onClick={() =>
                     column.sortable && handleSort(column.key as string)
