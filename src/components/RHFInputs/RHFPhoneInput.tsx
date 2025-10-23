@@ -1,4 +1,3 @@
-
 import { Controller, useFormContext } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 import { ChevronDown } from "lucide-react";
@@ -59,12 +58,8 @@ const RHFPhoneInput = ({
               disabled={disabled}
               placeholder={placeholder}
               className="flex items-center gap-2 w-full"
-              countrySelectProps={{
-                unicodeFlags: true,
-              }}
               inputComponent={Input as any}
             />
-            <ChevronDown className="ml-1 h-4 w-4 text-gray-500 pointer-events-none" />
           </div>
         )}
       />
