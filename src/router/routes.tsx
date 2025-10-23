@@ -6,7 +6,7 @@ import { DashboardPage } from "../pages/DashboardPage";
 import { LandingPage } from "../pages/LandingPage";
 import { AdminPage } from "../pages/AdminPage";
 import { UnauthorizedPage } from "../pages/UnauthorizedPage";
-
+import DraftPage from "@/pages/DraftPage";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -37,4 +37,8 @@ export const router = createBrowserRouter([
     path: "*",
     element: <Navigate to="/" replace />,
   },
+  {
+    path: "/drafts",
+    element:  <DraftPage />
+  }
 ]);

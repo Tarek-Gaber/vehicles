@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import "react-phone-number-input/style.css";
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -122,4 +122,79 @@
   [dir="rtl"] .directional-icon {
     transform: rotateY(-180deg);
   }
+}
+
+
+
+
+
+
+
+
+/* General layout */
+.phone-input .PhoneInput {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.phone-input .PhoneInputCountry {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-right: 0.25rem;
+  position: relative;
+}
+
+.phone-input .PhoneInputCountrySelect {
+  border-radius: 9999px; /* round */
+  overflow: hidden;
+  background: transparent;
+  outline: none;
+  border: none;
+}
+
+.phone-input .PhoneInputCountryIcon {
+  display: flex;
+  align-items: center;
+    border-radius: 9999px;
+
+}
+
+.phone-input .PhoneInputCountryIconImg {
+  border-radius: 9999px;
+  width: 26px;
+  height: 26px;
+  object-fit: cover;
+}
+
+/* Country code (like +20) */
+.phone-input .PhoneInputCountrySelectArrow {
+  display: block; /* hide the default arrow */
+}
+
+.phone-input .PhoneInputCountrySelect::after {
+  content: none;
+}
+
+/* Input field (Shadcn Input styling) */
+.phone-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.phone-input input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Dropdown icon alignment */
+.phone-input .lucide-chevron-down {
+  margin-left: auto;
+  flex-shrink: 0;
 }
