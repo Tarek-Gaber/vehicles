@@ -1,4 +1,3 @@
-"use client";
 
 import { Controller, useFormContext } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
@@ -7,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import clsx from "clsx";
 import "react-phone-number-input/style.css";
-import "./phone-input.css"; // 👈 custom styles below
 
 interface RHFPhoneInputProps {
   name: string;
