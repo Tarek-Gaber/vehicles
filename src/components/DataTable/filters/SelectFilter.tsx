@@ -26,7 +26,7 @@ export function SelectFilter({
       value={value === null || value === undefined ? "" : String(value)}
       onValueChange={(val) => onChange(val === "" ? null : val)}
     >
-      <SelectTrigger className="h-9 w-[180px]">
+      <SelectTrigger className="w-[180px]">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

@@ -1,87 +1,102 @@
-import { useEffect, useState } from 'react'
-import { Search } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import type { FilterDef, FilterState } from './types'
-import { TextFilter, NumberFilter, SelectFilter, MultiSelectFilter, DateFilter } from './filters'
+import { useEffect, useState, useRef } from "react";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import type { FilterDef, FilterState } from "./types";
+import {
+  TextFilter,
+  NumberFilter,
+  SelectFilter,
+  MultiSelectFilter,
+  DateFilter,
+} from "./filters";
 
 interface DataTableToolbarProps {
   // Search
-  searchable?: boolean
-  searchPlaceholder?: string
-  searchValue: string
-  onSearchChange: (value: string) => void
-  
+  searchable?: boolean;
+  searchPlaceholder?: string;
+  searchValue: string;
+  onSearchChange: (value: string) => void;
+
   // Filters
-  filters?: FilterDef[]
-  filterValues: FilterState
-  onFilterChange: (key: string, value: any) => void
+  filters?: FilterDef[];
+  filterValues: FilterState;
+  onFilterChange: (key: string, value: any) => void;
 }
 
 export function DataTableToolbar({
   searchable,
-  searchPlaceholder = 'Search...',
+  searchPlaceholder = "Search...",
   searchValue,
   onSearchChange,
   filters = [],
   filterValues,
-  onFilterChange
+  onFilterChange,
 }: DataTableToolbarProps) {
-  const [localSearchValue, setLocalSearchValue] = useState(searchValue)
-  
+  const [localSearchValue, setLocalSearchValue] = useState(searchValue);
+  const onSearchChangeRef = useRef(onSearchChange);
+  const onFilterChangeRef = useRef(onFilterChange);
+
+  // Keep refs updated
+  useEffect(() => {
+    onSearchChangeRef.current = onSearchChange;
+    onFilterChangeRef.current = onFilterChange;
+  }, [onSearchChange, onFilterChange]);
+
   // Debounce search
   useEffect(() => {
     const timer = setTimeout(() => {
-      onSearchChange(localSearchValue)
-    }, 300)
-    
-    return () => clearTimeout(timer)
-  }, [localSearchValue, onSearchChange])
-  
+      onSearchChangeRef.current(localSearchValue);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [localSearchValue]);
+
   // Sync with external search changes
   useEffect(() => {
-    setLocalSearchValue(searchValue)
-  }, [searchValue])
-  
-  const visibleFilters = filters.filter(f => !f.hidden)
-  
+    setLocalSearchValue(searchValue);
+  }, [searchValue]);
+
+  const visibleFilters = filters.filter((f) => !f.hidden);
+
   if (!searchable && visibleFilters.length === 0) {
-    return null
+    return null;
   }
-  
+
   return (
     <div className="flex items-center gap-2 flex-wrap">
       {/* Global Search */}
       {searchable && (
         <div className="relative flex-1 min-w-[250px] max-w-sm">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-3.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="text"
             placeholder={searchPlaceholder}
             value={localSearchValue}
             onChange={(e) => setLocalSearchValue(e.target.value)}
-            className="h-9 pl-9"
+            className="pl-9"
           />
         </div>
       )}
-      
+
       {/* Column Filters */}
       {visibleFilters.map((filter) => {
-        const value = filterValues[filter.key as string]
-        const onChange = (val: any) => onFilterChange(filter.key as string, val)
-        
+        const value = filterValues[filter.key as string];
+        const onChange = (val: any) =>
+          onFilterChangeRef.current(filter.key as string, val);
+
         switch (filter.type) {
-          case 'text':
+          case "text":
             return (
               <TextFilter
                 key={filter.key as string}
                 label={filter.label}
-                value={value || ''}
+                value={value || ""}
                 onChange={onChange}
                 placeholder={filter.placeholder}
               />
-            )
-          
-          case 'number':
+            );
+
+          case "number":
             return (
               <NumberFilter
                 key={filter.key as string}
@@ -92,9 +107,9 @@ export function DataTableToolbar({
                 min={filter.min}
                 max={filter.max}
               />
-            )
-          
-          case 'select':
+            );
+
+          case "select":
             return (
               <SelectFilter
                 key={filter.key as string}
@@ -104,9 +119,9 @@ export function DataTableToolbar({
                 options={filter.options || []}
                 placeholder={filter.placeholder}
               />
-            )
-          
-          case 'multi-select':
+            );
+
+          case "multi-select":
             return (
               <MultiSelectFilter
                 key={filter.key as string}
@@ -116,9 +131,9 @@ export function DataTableToolbar({
                 options={filter.options || []}
                 placeholder={filter.placeholder}
               />
-            )
-          
-          case 'date':
+            );
+
+          case "date":
             return (
               <DateFilter
                 key={filter.key as string}
@@ -127,12 +142,12 @@ export function DataTableToolbar({
                 onChange={onChange}
                 placeholder={filter.placeholder}
               />
-            )
-          
+            );
+
           default:
-            return null
+            return null;
         }
       })}
     </div>
-  )
+  );
 }

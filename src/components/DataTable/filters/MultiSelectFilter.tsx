@@ -58,7 +58,7 @@ export function MultiSelectFilter({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-9 w-[200px] justify-between font-normal"
+          className="h-11 text-md w-[200px] justify-between font-normal"
         >
           <span className="truncate">{displayText}</span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

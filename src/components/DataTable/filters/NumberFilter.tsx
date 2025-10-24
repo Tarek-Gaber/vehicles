@@ -1,43 +1,42 @@
-import { Input } from '@/components/ui/input'
+import { Input } from "@/components/ui/input";
 
 interface NumberFilterProps {
-  label?: string
-  value: number | null
-  onChange: (value: number | null) => void
-  placeholder?: string
-  min?: number
-  max?: number
+  label?: string;
+  value: number | null;
+  onChange: (value: number | null) => void;
+  placeholder?: string;
+  min?: number;
+  max?: number;
 }
 
-export function NumberFilter({ 
-  label,
-  value, 
-  onChange, 
-  placeholder = 'Enter number...',
+export function NumberFilter({
+  value,
+  onChange,
+  placeholder = "Enter number...",
   min,
-  max
+  max,
 }: NumberFilterProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    if (val === '') {
-      onChange(null)
+    const val = e.target.value;
+    if (val === "") {
+      onChange(null);
     } else {
-      const numVal = Number(val)
+      const numVal = Number(val);
       if (!isNaN(numVal)) {
-        onChange(numVal)
+        onChange(numVal);
       }
     }
-  }
-  
+  };
+
   return (
     <Input
       type="number"
-      value={value ?? ''}
+      value={value ?? ""}
       onChange={handleChange}
       placeholder={placeholder}
       min={min}
       max={max}
-      className="h-9 w-[160px]"
+      className="w-[160px]"
     />
-  )
+  );
 }

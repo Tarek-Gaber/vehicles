@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 
 interface TextFilterProps {
@@ -16,15 +16,21 @@ export function TextFilter({
   debounceMs = 300,
 }: TextFilterProps) {
   const [localValue, setLocalValue] = useState(value);
+  const onChangeRef = useRef(onChange);
+
+  // Keep ref updated
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   // Debounce the onChange
   useEffect(() => {
     const timer = setTimeout(() => {
-      onChange(localValue);
+      onChangeRef.current(localValue);
     }, debounceMs);
 
     return () => clearTimeout(timer);
-  }, [localValue, debounceMs, onChange]);
+  }, [localValue, debounceMs]);
 
   // Sync with external value changes
   useEffect(() => {
@@ -37,7 +43,7 @@ export function TextFilter({
       value={localValue}
       onChange={(e) => setLocalValue(e.target.value)}
       placeholder={placeholder}
-      className="h-9 w-[200px]"
+      className="w-[200px]"
     />
   );
 }
