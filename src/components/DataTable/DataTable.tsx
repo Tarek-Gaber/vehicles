@@ -272,7 +272,7 @@ export function DataTable<TData = any>({
       )}
 
       {/* Table */}
-      <div className="border rounded-lg">
+      <div className="border border-gray-200 rounded-lg">
         <Table>
           <TableHeader
             className={cn(stickyHeader && "sticky top-0 overflow-hidden z-10")}
@@ -383,15 +383,15 @@ export function DataTable<TData = any>({
             })}
           </TableBody>
         </Table>
-      </div>
 
-      {/* Pagination */}
-      {onPageChange && (
-        <DataTablePagination
-          pagination={pagination}
-          onPageChange={onPageChange}
-        />
-      )}
+        {/* Pagination */}
+        {onPageChange && (
+          <DataTablePagination
+            pagination={pagination}
+            onPageChange={onPageChange}
+          />
+        )}
+      </div>
     </div>
   );
 }
