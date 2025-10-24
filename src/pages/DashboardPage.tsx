@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { AnimatedPage } from "@/components/AnimatedPage";
+import { VehiclesTableExample } from "@/components/examples/VehiclesTableExample";
 import {
   staggerContainerVariants,
   staggerItemVariants,
@@ -21,7 +22,7 @@ export function DashboardPage() {
         variants={staggerContainerVariants}
         initial="initial"
         animate="animate"
-        className="max-w-4xl mx-auto space-y-6"
+        className="max-w-7xl mx-auto space-y-6"
       >
         <motion.div
           variants={staggerItemVariants}
@@ -83,6 +84,14 @@ export function DashboardPage() {
             You are viewing the general dashboard accessible to all
             authenticated users.
           </p>
+        </motion.div>
+
+        {/* DataTable Example */}
+        <motion.div
+          variants={staggerItemVariants}
+          className="p-6 bg-card rounded-lg shadow"
+        >
+          <VehiclesTableExample />
         </motion.div>
       </motion.div>
     </AnimatedPage>
