@@ -1,44 +1,59 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { ConditionalRoute } from "./ConditionalRoute";
-import { LoginPage } from "../pages/LoginPage";
-import { DashboardPage } from "../pages/DashboardPage";
-import { LandingPage } from "../pages/LandingPage";
-import { AdminPage } from "../pages/AdminPage";
-import { UnauthorizedPage } from "../pages/UnauthorizedPage";
-import DraftPage from "@/pages/DraftPage";
+
+// Layouts
+import { SiteLayout } from "@/layouts/SiteLayout";
+import { AdminLayout } from "@/layouts/AdminLayout";
+
+// Pages
+import { LoginPage } from "@/pages";
+import { OpportunitiesPage, OpportunityDetailsPage } from "@/pages";
+import { DashboardPage } from "@/pages";
+
 export const router = createBrowserRouter([
+  // Site routes - public pages
   {
-    path: "/",
-    element: (
-      <ConditionalRoute
-        authenticatedElement={<DashboardPage />}
-        unauthenticatedElement={<LandingPage />}
-      />
-    ),
+    element: <SiteLayout />,
+    children: [
+      {
+        path: "/",
+        element: <OpportunitiesPage />,
+      },
+      {
+        path: "/opportunities",
+        element: <OpportunitiesPage />,
+      },
+      {
+        path: "/opportunities/:id",
+        element: <OpportunityDetailsPage />,
+      },
+    ],
   },
-  {
-    path: "/admin",
-    element: (
-      <ProtectedRoute roles="admin">
-        <AdminPage />
-      </ProtectedRoute>
-    ),
-  },
+
+  // Auth routes - login, signup, password reset
   {
     path: "/login",
     element: <LoginPage />,
   },
+
+  // Admin routes - protected, admin only
   {
-    path: "/unauthorized",
-    element: <UnauthorizedPage />,
+    element: (
+      <ProtectedRoute roles="admin">
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "/admin",
+        element: <DashboardPage />,
+      },
+    ],
   },
+
+  // Fallback
   {
     path: "*",
     element: <Navigate to="/" replace />,
   },
-  {
-    path: "/drafts",
-    element:  <DraftPage />
-  }
 ]);

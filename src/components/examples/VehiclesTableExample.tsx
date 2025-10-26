@@ -237,7 +237,7 @@ export function VehiclesTableExample() {
 
       {/* Fixed Bulk Actions Bar */}
       {selectedRows.size > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-background border-t shadow-lg z-50">
+        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-background border-t shadow-lg z-50">
           <div className="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="bg-primary text-primary-foreground rounded-full h-8 w-8 flex items-center justify-center font-semibold text-sm">
@@ -254,7 +254,7 @@ export function VehiclesTableExample() {
                 variant="outline"
                 onClick={() => setSelectedRows(new Set())}
               >
-                Clear Selection
+                Reassign
               </Button>
               <Button
                 variant="destructive"
