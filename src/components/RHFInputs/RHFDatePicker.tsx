@@ -46,7 +46,8 @@ export function RHFDatePicker<T extends FieldValues>({
             <PopoverTrigger asChild>
               <Button
                 type="button"
-                variant="outline"
+                variant="outlined"
+                color="gray"
                 disabled={disabled}
                 className={cn(
                   "w-full flex flex-row-reverse justify-between text-right font-normal",

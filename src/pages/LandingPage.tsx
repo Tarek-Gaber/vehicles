@@ -60,7 +60,8 @@ export function LandingPage() {
             </Button>
             <Button
               size="lg"
-              variant="outline"
+              variant="outlined"
+              color="gray"
               onClick={() => navigate("/login")}
               className="px-8"
             >

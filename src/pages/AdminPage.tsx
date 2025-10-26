@@ -12,7 +12,7 @@ export function AdminPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">Admin Panel</h1>
-          <Button onClick={() => logout.mutate()} variant="outline">
+          <Button onClick={() => logout.mutate()} variant="outlined" color="gray">
             Logout
           </Button>
         </div>

@@ -33,7 +33,7 @@ export function DashboardPage() {
             <ThemeSwitcher />
             <LanguageSwitcher />
             <motion.div whileTap={{ scale: 0.95 }}>
-              <Button onClick={() => logout.mutate()} variant="outline">
+              <Button onClick={() => logout.mutate()} variant="outlined" color="gray">
                 Logout
               </Button>
             </motion.div>

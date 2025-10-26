@@ -237,33 +237,25 @@ export function VehiclesTableExample() {
 
       {/* Fixed Bulk Actions Bar */}
       {selectedRows.size > 0 && (
-        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-background border-t shadow-lg z-50">
-          <div className="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="bg-primary text-primary-foreground rounded-full h-8 w-8 flex items-center justify-center font-semibold text-sm">
-                {selectedRows.size}
-              </div>
+        <div className="fixed rounded-full bottom-14 left-1/2 transform -translate-x-1/2 bg-background border-t shadow-lg z-50">
+          <div className="max-w-7xl mx-auto px-3 py-2 flex items-center justify-between gap-10">
+            <div className="flex items-center gap-2 ps-1">
+              ..
               <span className="text-sm font-medium">
-                {selectedRows.size} {selectedRows.size === 1 ? "item" : "items"}{" "}
-                selected
+                {selectedRows.size} Selected
               </span>
             </div>
 
             <div className="flex items-center gap-2">
               <Button
-                variant="outline"
-                onClick={() => setSelectedRows(new Set())}
-              >
-                Reassign
-              </Button>
-              <Button
-                variant="destructive"
+                variant="contained"
+                color="orange"
+                size="lg"
                 onClick={handleBulkDelete}
                 disabled={bulkDelete.isPending}
+                className="rounded-full py-3 text-md leading-6 h-12"
               >
-                {bulkDelete.isPending
-                  ? "Deleting..."
-                  : `Delete ${selectedRows.size} selected`}
+                {bulkDelete.isPending ? "Reassigning..." : `Reassign`}
               </Button>
             </div>
           </div>

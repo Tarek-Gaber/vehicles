@@ -14,7 +14,7 @@ export function CounterExample() {
         <Button onClick={() => dispatch(decrement())}>Decrement</Button>
         <Button onClick={() => dispatch(increment())}>Increment</Button>
         <Button onClick={() => dispatch(incrementByAmount(5))}>+5</Button>
-        <Button onClick={() => dispatch(reset())} variant="outline">
+        <Button onClick={() => dispatch(reset())} variant="outlined" color="gray">
           Reset
         </Button>
       </div>

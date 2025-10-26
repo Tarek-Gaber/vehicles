@@ -13,7 +13,7 @@ export function UnauthorizedPage() {
           You don't have permission to access this page.
         </p>
         <div className="flex gap-3 justify-center mt-6">
-          <Button onClick={() => navigate(-1)} variant="outline">
+          <Button onClick={() => navigate(-1)} variant="outlined" color="gray">
             Go Back
           </Button>
           <Button onClick={() => navigate("/")}>
