@@ -1,11 +1,13 @@
-import RHFInput from "../RHFInputs/RHFInput";
+import RHFInput from "../../../../components/RHFInputs/RHFInput";
 import { useForm, FormProvider } from "react-hook-form";
 import { Link } from "react-router";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import RHFPhoneInput from "../RHFInputs/RHFPhoneInput";
+import RHFPhoneInput from "../../../../components/RHFInputs/RHFPhoneInput";
 import { CircleCheck } from "lucide-react";
+import { useRegister } from "@/api/queries";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 export const signupSchema = z.object({
   name: z
     .string()
@@ -25,11 +27,11 @@ export const signupSchema = z.object({
     ),
 });
 
-
-
 export type SignupSchema = z.infer<typeof signupSchema>;
 
 const SignupForm = () => {
+  const { isPending, mutate } = useRegister();
+
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -40,14 +42,18 @@ const SignupForm = () => {
   const getPasswordChecks = () => {
     const password = form.watch("password") || "";
 
-  return {hasMinLength: password.length >= 8,
-  hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),}
+    return {
+      hasMinLength: password.length >= 8,
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    };
   };
-  console.log(getPasswordChecks())
-  const onSubmit = (data: SignupSchema) => console.log(data);
+  console.log(getPasswordChecks());
+  const onSubmit = (data: SignupSchema) => {
+    mutate(data)
+  };
 
   return (
-    <div className=" flex flex-col gap-1 w-full   lg:px-28">
+    <div className=" flex flex-col gap-1 w-full   lg:px-25">
       <h1 className=" text-[#1D1E23] text-3xl font-semibold w-full">
         {" "}
         Sign UP{" "}
@@ -88,19 +94,43 @@ const SignupForm = () => {
             type="password"
           />
           <div className=" flex w-full flex-col justify-start items-start -my-2 gap-1">
-            <div className={` flex items-center justify-start ${getPasswordChecks().hasMinLength  ?"text-green-600" :"text-gray-600"} gap-1 text-sm`}>
-              <CircleCheck className={` h-4  ${getPasswordChecks().hasMinLength  ?"text-green-600" :"text-gray-600"}`} />
+            <div
+              className={` flex items-center justify-start ${
+                getPasswordChecks().hasMinLength
+                  ? "text-green-600"
+                  : "text-gray-600"
+              } gap-1 text-sm`}
+            >
+              <CircleCheck
+                className={` h-4  ${
+                  getPasswordChecks().hasMinLength
+                    ? "text-green-600"
+                    : "text-gray-600"
+                }`}
+              />
               Must be at least 8 characters{" "}
             </div>
-            <div className={`  ${getPasswordChecks().hasSpecialChar  ?"text-green-600" :"text-gray-600"} flex items-center justify-start  gap-1 text-sm`}>
+            <div
+              className={`  ${
+                getPasswordChecks().hasSpecialChar
+                  ? "text-green-600"
+                  : "text-gray-600"
+              } flex items-center justify-start  gap-1 text-sm`}
+            >
               {" "}
-              <CircleCheck className={` h-4  ${getPasswordChecks().hasSpecialChar  ?"text-green-600" :"text-gray-600"}` }/> Must contain one special
-              character
+              <CircleCheck
+                className={` h-4  ${
+                  getPasswordChecks().hasSpecialChar
+                    ? "text-green-600"
+                    : "text-gray-600"
+                }`}
+              />{" "}
+              Must contain one special character
             </div>
           </div>
-          <Button type="submit" className="rounded-md mt-2 bg-[#1B3F82]">
+          <Button disabled={isPending} type="submit" className="rounded-md mt-2 bg-[#1B3F82]">
             {" "}
-            Get Started{" "}
+            {isPending ? <LoadingSpinner size="sm" className="  border-wight" /> :   "Get Started"}{" "}
           </Button>
 
           <div className=" flex w-full justify-center items-center gap-2 ">

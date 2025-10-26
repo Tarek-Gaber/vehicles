@@ -1,31 +1,39 @@
-import RHFCheckbox from "../RHFInputs/RHFCheckBox";
-import RHFInput from "../RHFInputs/RHFInput";
+import RHFCheckbox from "../../../../components/RHFInputs/RHFCheckBox";
+import RHFInput from "../../../../components/RHFInputs/RHFInput";
 import { useForm, FormProvider } from "react-hook-form";
 import { Link } from "react-router";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-
+import { useLogin } from "@/api/queries";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(1, "Password is required"),
-})
+});
+
+
+
+
 
 
 const LoginForm = () => {
-   const form = useForm<z.infer<typeof loginSchema>>({
+  const {mutate, isPending} = useLogin()
+  const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
-  })
+  });
 
-  const onSubmit = (data: z.infer<typeof loginSchema>) => console.log(data);
+  const onSubmit = (data: z.infer<typeof loginSchema>) =>{
+    mutate(data)
+  };
 
   return (
-    <div className=" flex flex-col gap-2 w-full   lg:px-28">
+    <div className=" flex flex-col gap-2 w-full   lg:px-25">
       <h1 className=" text-[#1D1E23] text-3xl font-semibold w-full">
         {" "}
         Log in{" "}
@@ -57,9 +65,9 @@ const LoginForm = () => {
               Forgot Password?{" "}
             </Link>
           </div>
-          <Button type="submit" className=" py-2 rounded-md mt-2 bg-[#1B3F82]">
+          <Button disabled={isPending}  type="submit" className=" py-2 rounded-md mt-2 bg-[#1B3F82]">
             {" "}
-            Log In{" "}
+          { isPending ? <LoadingSpinner size="sm" className="  border-wight" /> :   " Log In"}{" "}
           </Button>
 
           <div className=" flex w-full justify-center items-center gap-2 ">
