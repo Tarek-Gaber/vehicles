@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Eye, Pencil, Trash, Copy, Car } from "lucide-react";
 import toast from "react-hot-toast";
 import { DataTable } from "@/components/DataTable";
 import type { ColumnDef, FilterDef } from "@/components/DataTable";
 import { ActionsCell } from "@/components/DataTable/cell-renderers";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useTableState } from "@/hooks/useTableState";
 import {
   useVehiclesQuery,
@@ -19,6 +20,28 @@ export function VehiclesTableExample() {
 
   // Selection state (not part of table state)
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
+
+  // Track table position for bulk actions bar
+  const tableRef = useRef<HTMLDivElement>(null);
+  const [tableLeft, setTableLeft] = useState<number>(0);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      if (tableRef.current) {
+        const rect = tableRef.current.getBoundingClientRect();
+        setTableLeft(rect.left);
+      }
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition);
+    };
+  }, []);
 
   // API Query - simulates real backend with mock data
   const { data, isLoading } = useVehiclesQuery(table.params);
@@ -212,35 +235,48 @@ export function VehiclesTableExample() {
         </div>
       </div>
 
-      <DataTable
-        data={data?.data || []}
-        loading={isLoading}
-        columns={columns}
-        filters={vehicleFilters}
-        pagination={{
-          currentPage: data?.pagination.currentPage || 1,
-          totalPages: data?.pagination.totalPages || 1,
-        }}
-        onPageChange={table.setPage}
-        searchable
-        searchPlaceholder="Search vehicles by name or model..."
-        onSearchChange={table.setSearch}
-        onFilterChange={table.setFilters}
-        sortable
-        onSortChange={table.setSort}
-        selectable
-        selectedRows={selectedRows}
-        onSelectionChange={setSelectedRows}
-        rowKey="id"
-        emptyMessage="No vehicles found. Try adjusting your search or filters."
-      />
+      <div ref={tableRef}>
+        <DataTable
+          data={data?.data || []}
+          loading={isLoading}
+          columns={columns}
+          filters={vehicleFilters}
+          pagination={{
+            currentPage: data?.pagination.currentPage || 1,
+            totalPages: data?.pagination.totalPages || 1,
+          }}
+          onPageChange={table.setPage}
+          searchable
+          searchPlaceholder="Search vehicles by name or model..."
+          onSearchChange={table.setSearch}
+          onFilterChange={table.setFilters}
+          sortable
+          onSortChange={table.setSort}
+          selectable
+          selectedRows={selectedRows}
+          onSelectionChange={setSelectedRows}
+          rowKey="id"
+          emptyMessage="No vehicles found. Try adjusting your search or filters."
+        />
+      </div>
 
       {/* Fixed Bulk Actions Bar */}
       {selectedRows.size > 0 && (
-        <div className="fixed rounded-full bottom-14 left-1/2 transform -translate-x-1/2 bg-background border-t shadow-lg z-50">
+        <div 
+          className="fixed rounded-full bottom-14 bg-background border-t shadow-lg z-50"
+          style={{
+            left: tableRef.current ? `${tableLeft + tableRef.current.offsetWidth / 2}px` : '50%',
+            transform: 'translateX(-50%)'
+          }}
+        >
           <div className="max-w-7xl mx-auto px-3 py-2 flex items-center justify-between gap-10">
             <div className="flex items-center gap-2 ps-1">
-              ..
+              <Checkbox
+                checked={true}
+                onCheckedChange={() => setSelectedRows(new Set())}
+                aria-label="Unselect all"
+                className="data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+              />
               <span className="text-sm font-medium">
                 {selectedRows.size} Selected
               </span>
