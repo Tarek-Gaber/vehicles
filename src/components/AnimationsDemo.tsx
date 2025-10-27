@@ -134,10 +134,10 @@ export function AnimationsDemo() {
         <h3 className="text-xl font-semibold">Animated Buttons</h3>
         <div className="flex flex-wrap gap-4">
           <AnimatedButton>Click me!</AnimatedButton>
-          <AnimatedButton variant="outline">Outline Button</AnimatedButton>
-          <AnimatedButton variant="secondary">Secondary</AnimatedButton>
+          <AnimatedButton variant="outlined" color="gray">Outline Button</AnimatedButton>
+          <AnimatedButton variant="contained" color="secondary">Secondary</AnimatedButton>
           <motion.div whileTap={{ scale: 0.95 }}>
-            <Button variant="destructive">Destructive</Button>
+            <Button variant="contained" color="error">Destructive</Button>
           </motion.div>
         </div>
       </section>

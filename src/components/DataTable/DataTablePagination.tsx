@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { PaginationMeta } from "./types";
 
@@ -57,7 +57,8 @@ export function DataTablePagination({
     <div className="flex items-center justify-center gap-1 px-6 py-3 border-t border-gray-200">
       {/* Previous Button */}
       <Button
-        variant="outline"
+        variant="outlined"
+        color="gray"
         size="sm"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -80,7 +81,8 @@ export function DataTablePagination({
           ) : (
             <Button
               key={page}
-              variant={page === currentPage ? "secondary" : "ghost"}
+              variant={page === currentPage ? "contained" : "ghost"}
+              color={page === currentPage ? "secondary" : "gray"}
               size="sm"
               onClick={() => onPageChange(page)}
               className={
@@ -96,7 +98,8 @@ export function DataTablePagination({
 
       {/* Next Button */}
       <Button
-        variant="outline"
+        variant="outlined"
+        color="gray"
         size="sm"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}

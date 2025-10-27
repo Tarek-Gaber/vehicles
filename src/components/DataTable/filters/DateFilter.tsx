@@ -28,7 +28,8 @@ export function DateFilter({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="outlined"
+          color="gray"
           className={cn(
             "h-11 text-md w-[200px] justify-start text-left font-normal",
             !value && "text-muted-foreground"

@@ -8,7 +8,7 @@ const sizeVariants = {
   lg: "h-11 px-3.5 py-1.5 text-base",
 };
 
-interface InputProps extends React.ComponentProps<"input"> {
+interface InputProps extends Omit<React.ComponentProps<"input">, "size"> {
   size?: "sm" | "default" | "lg";
 }
 

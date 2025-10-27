@@ -55,7 +55,8 @@ export function MultiSelectFilter({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="outlined"
+          color="gray"
           role="combobox"
           aria-expanded={open}
           className="h-11 text-md w-[200px] justify-between font-normal"
