@@ -6,4 +6,3 @@ export { OpportunityDetailsPage } from "./site/OpportunityDetailsPage";
 export { DashboardPage } from "./admin/DashboardPage";
 
 // Auth pages
-export { LoginPage } from "./LoginPage";

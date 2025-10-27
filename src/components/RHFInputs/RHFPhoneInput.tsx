@@ -33,7 +33,7 @@ const RHFPhoneInput = ({
   const error = errors[name];
 
   return (
-    <div className={clsx("space-y-1", className)}>
+    <div className={clsx("space-y-1")}>
       {label && (
         <Label htmlFor={name} className="text-sm font-medium text-gray-700">
           {label}
@@ -57,7 +57,7 @@ const RHFPhoneInput = ({
               onChange={onChange}
               disabled={disabled}
               placeholder={placeholder}
-              className="flex items-center gap-2 w-full"
+              className={clsx("flex items-center gap-2 w-full", className)}
               inputComponent={Input as any}
             />
           </div>
@@ -68,7 +68,7 @@ const RHFPhoneInput = ({
         <p className="text-xs text-gray-500">{description}</p>
       )}
 
-      {touchedFields[name] && error && (
+      {error && (
         <p className="text-xs text-red-600">{error?.message?.toString()}</p>
       )}
     </div>

@@ -1,59 +1,79 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { ConditionalRoute } from "./ConditionalRoute";
 
-// Layouts
+import LoginPage from "@/pages/auth/LoginPage";
+import SignupPage from "@/pages/auth/SignUpPage";
+import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
+import ResetpasswordPage from "@/pages/auth/ResetPasswordPage";
+
+import { DashboardPage } from "@/pages/DashboardPage";
+import { OpportunitiesPage } from "@/pages/site/OpportunitiesPage";
+import { AdminPage } from "@/pages/AdminPage";
+import { UnauthorizedPage } from "@/pages/UnauthorizedPage";
+import DraftPage from "@/pages/DraftPage";
+import { Login } from "@/pages/Login";
+
+import AuthLayout from "@/components/layout/authLayout";
 import { SiteLayout } from "@/layouts/SiteLayout";
-import { AdminLayout } from "@/layouts/AdminLayout";
-
-// Pages
-import { LoginPage } from "@/pages";
-import { OpportunitiesPage, OpportunityDetailsPage } from "@/pages";
-import { DashboardPage } from "@/pages";
-
 export const router = createBrowserRouter([
-  // Site routes - public pages
   {
     element: <SiteLayout />,
     children: [
       {
         path: "/",
-        element: <OpportunitiesPage />,
-      },
-      {
-        path: "/opportunities",
-        element: <OpportunitiesPage />,
-      },
-      {
-        path: "/opportunities/:id",
-        element: <OpportunityDetailsPage />,
+        element: (
+          <ConditionalRoute
+            authenticatedElement={<DashboardPage />}
+            unauthenticatedElement={<OpportunitiesPage />}
+          />
+        ),
       },
     ],
   },
-
-  // Auth routes - login, signup, password reset
   {
-    path: "/login",
-    element: <LoginPage />,
-  },
-
-  // Admin routes - protected, admin only
-  {
+    path: "/admin",
     element: (
       <ProtectedRoute roles="admin">
-        <AdminLayout />
+        <AdminPage />
       </ProtectedRoute>
     ),
+  },
+  {
+    element: <AuthLayout />,
     children: [
       {
-        path: "/admin",
-        element: <DashboardPage />,
+        path: "login",
+        element: <LoginPage />,
+      },
+      {
+        path: "signup",
+        element: <SignupPage />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordPage />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetpasswordPage />,
       },
     ],
   },
-
-  // Fallback
+  {
+    path: "/unauthorized",
+    element: <UnauthorizedPage />,
+  },
   {
     path: "*",
     element: <Navigate to="/" replace />,
+  },
+  {
+    path: "/drafts",
+    element: <DraftPage />,
+  },
+  {
+    path: "/login2",
+    element: <Login />,
   },
 ]);

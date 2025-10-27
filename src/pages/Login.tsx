@@ -7,7 +7,7 @@ import { LanguageSwitcher } from "../components/LanguageSwitcher";
 import { AnimatedPage } from "../components/AnimatedPage";
 import { staggerContainerVariants, staggerItemVariants } from "../lib/animations";
 
-export function LoginPage() {
+export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const login = useLogin();
@@ -94,3 +94,5 @@ export function LoginPage() {
     </AnimatedPage>
   );
 }
+
+
