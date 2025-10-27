@@ -3,6 +3,9 @@ import secLogo from "@/assets/images/secLogo.png";
 import secIcon from "@/assets/images/secIcon.png";
 import { Link } from "react-router";
 import { Outlet } from "react-router";
+import { motion } from "framer-motion";
+import { slideInVariants } from "@/lib/animations";
+import { useLocation } from "react-router";
 
 export function AuthLayout() {
   return (
@@ -18,7 +21,16 @@ export function AuthLayout() {
         </div>
 
         <div className=" grow w-full flex items-center justify-start px-6 flex-col ">
-          <Outlet />
+          <motion.div
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={slideInVariants("ltr")}
+            className="w-full"
+            key={useLocation().key}
+          >
+            <Outlet />
+          </motion.div>
         </div>
       </div>
       <div
