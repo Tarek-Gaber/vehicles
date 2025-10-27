@@ -5,9 +5,9 @@
 export const endpoints = {
   // Auth endpoints
   auth: {
-    login: '/auth/login',
+    login: '/login',
     logout: '/auth/logout',
-    register: '/auth/register',
+    register: '/signup',
     refresh: '/auth/refresh',
     profile: '/auth/profile',
     updateProfile: '/auth/profile',

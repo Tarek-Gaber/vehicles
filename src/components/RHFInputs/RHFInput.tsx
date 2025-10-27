@@ -1,13 +1,13 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Input } from "../ui/input";
 import clsx from "clsx";
-import {
-  type DetailedHTMLProps,
-  type InputHTMLAttributes,
-} from "react";
+import { type DetailedHTMLProps, type InputHTMLAttributes } from "react";
 
 interface RHFInputProps
-  extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
   label?: string;
   description?: string;
 }
@@ -24,12 +24,15 @@ const RHFInput = ({ label, description, ...props }: RHFInputProps) => {
     return null;
   }
 
-  const error =   errors[name];
+  const error = errors[name];
 
   return (
     <div className="space-y-1">
       {label && (
-        <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor={name}
+          className="block text-sm font-medium text-gray-700"
+        >
           {label}
         </label>
       )}
@@ -44,16 +47,18 @@ const RHFInput = ({ label, description, ...props }: RHFInputProps) => {
             value={field.value ?? ""}
             className={clsx(
               props.className,
-              error && "border-red-600 focus:ring-red-500 focus:border-red-500",
-              "shadow-none focus:shadow-none"
+              "shadow-none focus:shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 transition-colors duration-150",
+              error
+                ? // Keep red border always — even when focused
+                  "border-red-600 focus:border-red-600 focus-visible:border-red-600"
+                : // Default style when no error
+                  "border-input focus:border-primary focus-visible:border-primary"
             )}
           />
         )}
       />
 
-      {description && (
-        <p className="text-xs text-gray-500">{description}</p>
-      )}
+      {description && <p className="text-xs text-gray-500">{description}</p>}
 
       {error && (
         <p className="text-xs text-red-600">

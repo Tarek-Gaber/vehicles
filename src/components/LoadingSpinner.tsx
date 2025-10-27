@@ -10,14 +10,14 @@ interface LoadingSpinnerProps {
  */
 export function LoadingSpinner({ size = 'md', className = '' }: LoadingSpinnerProps) {
   const sizeClasses = {
-    sm: 'h-4 w-4',
+    sm: 'h-5 w-5',
     md: 'h-8 w-8',
     lg: 'h-12 w-12',
   };
 
   return (
     <motion.div
-      className={`${sizeClasses[size]} border-4 border-primary border-t-transparent rounded-full ${className}`}
+      className={`${sizeClasses[size]} border-3  border-t-transparent rounded-full ${className.includes("border")?className: "border-primary"}`}
       animate={{ rotate: 360 }}
       transition={{
         duration: 1,

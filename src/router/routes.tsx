@@ -1,12 +1,21 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ConditionalRoute } from "./ConditionalRoute";
-import { LoginPage } from "../pages/LoginPage";
+
+import LoginPage from "../pages/Auth/LoginPage";
+import SignupPage from "@/pages/Auth/SignUpPage";
+import ForgotPasswordPage from "@/pages/Auth/ForgotPasswordPage";
+import ResetpasswordPage from "@/pages/Auth/ResetPasswordPage";
+
+
 import { DashboardPage } from "../pages/DashboardPage";
 import { LandingPage } from "../pages/LandingPage";
 import { AdminPage } from "../pages/AdminPage";
 import { UnauthorizedPage } from "../pages/UnauthorizedPage";
 import DraftPage from "@/pages/DraftPage";
+import { Login } from "@/pages/Login";
+
+import AuthLayout from "@/components/layout/authLayout";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -26,8 +35,25 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/login",
-    element: <LoginPage />,
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
+      {
+        path: "signup",
+        element: <SignupPage />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordPage />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetpasswordPage />,
+      },
+    ],
   },
   {
     path: "/unauthorized",
@@ -39,6 +65,10 @@ export const router = createBrowserRouter([
   },
   {
     path: "/drafts",
-    element:  <DraftPage />
-  }
+    element: <DraftPage />,
+  },
+  {
+    path: "/login2",
+    element: <Login />,
+  },
 ]);
