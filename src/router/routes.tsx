@@ -1,21 +1,28 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { ConditionalRoute } from "./ConditionalRoute";
+import { GuestRoute } from "./GuestRoute";
+import { SiteRoute } from "./SiteRoute";
 
-import LoginPage from "@/pages/auth/LoginPage";
-import SignupPage from "@/pages/auth/SignUpPage";
-import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
-import ResetpasswordPage from "@/pages/auth/ResetPasswordPage";
+// layouts
+import { AuthLayout, AdminLayout, SiteLayout } from "@/components/layout";
 
-import { DashboardPage } from "@/pages/DashboardPage";
-import { OpportunitiesPage } from "@/pages/site/OpportunitiesPage";
-import { AdminPage } from "@/pages/AdminPage";
+/******** pages ********/
+// auth pages
+import {
+  LoginPage,
+  SignupPage,
+  ForgotPasswordPage,
+  ResetpasswordPage,
+} from "@/pages/auth";
+
+// site pages
+import { OpportunitiesPage, OpportunityDetailsPage } from "@/pages/site";
+
+// admin pages
+import { DashboardPage, AdminOpportunityDetailsPage } from "@/pages/admin";
 import { UnauthorizedPage } from "@/pages/UnauthorizedPage";
 import DraftPage from "@/pages/DraftPage";
-import { Login } from "@/pages/Login";
 
-import AuthLayout from "@/components/layout/authLayout";
-import { SiteLayout } from "@/layouts/SiteLayout";
 export const router = createBrowserRouter([
   {
     element: <SiteLayout />,
@@ -23,24 +30,27 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          <ConditionalRoute
-            authenticatedElement={<DashboardPage />}
-            unauthenticatedElement={<OpportunitiesPage />}
-          />
+          <SiteRoute adminPath="/admin">
+            <OpportunitiesPage />
+          </SiteRoute>
+        ),
+      },
+      {
+        path: "/opportunities/:id",
+        element: (
+          <SiteRoute adminPath="/admin/opportunities/:id">
+            <OpportunityDetailsPage />
+          </SiteRoute>
         ),
       },
     ],
   },
   {
-    path: "/admin",
     element: (
-      <ProtectedRoute roles="admin">
-        <AdminPage />
-      </ProtectedRoute>
+      <GuestRoute>
+        <AuthLayout />
+      </GuestRoute>
     ),
-  },
-  {
-    element: <AuthLayout />,
     children: [
       {
         path: "login",
@@ -61,6 +71,27 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "/admin",
+        element: (
+          <ProtectedRoute roles="admin">
+            <DashboardPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/opportunities/:id",
+        element: (
+          <ProtectedRoute roles="admin">
+            <AdminOpportunityDetailsPage />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  }, // end admin pages
+  {
     path: "/unauthorized",
     element: <UnauthorizedPage />,
   },
@@ -71,9 +102,5 @@ export const router = createBrowserRouter([
   {
     path: "/drafts",
     element: <DraftPage />,
-  },
-  {
-    path: "/login2",
-    element: <Login />,
   },
 ]);

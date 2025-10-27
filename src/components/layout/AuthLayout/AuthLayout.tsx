@@ -4,7 +4,7 @@ import secIcon from "@/assets/images/secIcon.png";
 import { Link } from "react-router";
 import { Outlet } from "react-router";
 
-const AuthLayout: React.FC = () => {
+export function AuthLayout() {
   return (
     <div className=" h-screen w-screen flex ">
       <div className=" h-full  w-full md:w-1/2 lg:w-[45%] flex flex-col">
@@ -42,6 +42,4 @@ const AuthLayout: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default AuthLayout;
+}
