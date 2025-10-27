@@ -256,6 +256,20 @@ function Button({
 }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
 
+  // When using asChild, we need to clone the child and pass props to it
+  if (asChild) {
+    return (
+      <Comp
+        data-slot="button"
+        className={cn(buttonVariants({ variant, color, size, className }))}
+        disabled={disabled || loading}
+        {...props}
+      >
+        {children}
+      </Comp>
+    );
+  }
+
   return (
     <Comp
       data-slot="button"
