@@ -1,5 +1,6 @@
 import { TrendingUp } from "lucide-react";
 import React from "react";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -100,11 +101,15 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({
         </div>
       </CardContent>
       <CardFooter className="flex justify-between gap-4 px-8 mt-auto">
-        <Button variant="outlined" color="gray" className="flex-1">
-          View Details
+        <Button variant="outlined" color="gray" className="flex-1" asChild>
+          <Link to={`/opportunities/${opportunity.id}`}>
+            View Details
+          </Link>
         </Button>
-        <Button variant="contained" color="primary" className="flex-1">
-          Apply
+        <Button variant="contained" color="primary" className="flex-1" asChild>
+          <Link to={`/login?opportunityId=${opportunity.id}`}>
+            Apply
+          </Link>
         </Button>
       </CardFooter>
     </Card>
