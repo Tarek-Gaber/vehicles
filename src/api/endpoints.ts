@@ -34,4 +34,10 @@ export const endpoints = {
     delete: (id: string | number) => `/investors/${id}`,
     verify: (id: string | number) => `/investors/${id}/verify`,
   },
+
+  // Site Opportunities endpoints
+  siteOpportunities: {
+    list: '/site-opportunities',
+    detail: (id: string | number) => `/site-opportunities/${id}`,
+  },
 } as const;

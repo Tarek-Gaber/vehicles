@@ -9,41 +9,97 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { SiteOpportunity } from "@/api/types";
 
-const OpportunityCard: React.FC = () => {
+interface OpportunityCardProps {
+  opportunity?: SiteOpportunity;
+  isLoading?: boolean;
+}
+
+const OpportunityCard: React.FC<OpportunityCardProps> = ({
+  opportunity,
+  isLoading = false,
+}) => {
+  if (isLoading) {
+    return (
+      <Card className="bg-gray-50 py-8">
+        <CardHeader className="px-8">
+          <Skeleton className="w-14 h-14 mb-6 rounded-lg" />
+          <Skeleton className="h-7 w-3/4 mb-2" />
+          <Skeleton className="h-5 w-full mb-1" />
+          <Skeleton className="h-5 w-5/6" />
+        </CardHeader>
+        <CardContent className="space-y-2 px-8">
+          <div className="flex justify-between">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-5 w-20" />
+          </div>
+          <div className="flex justify-between">
+            <Skeleton className="h-4 w-28" />
+            <Skeleton className="h-5 w-20" />
+          </div>
+          <div className="flex justify-between">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-5 w-12" />
+          </div>
+          <div className="flex justify-between">
+            <Skeleton className="h-4 w-28" />
+            <Skeleton className="h-5 w-12" />
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-between gap-4 px-8">
+          <Skeleton className="h-10 flex-1" />
+          <Skeleton className="h-10 flex-1" />
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  if (!opportunity) {
+    return null;
+  }
+
   return (
-    <Card className="bg-gray-50 py-8">
+    <Card className="bg-gray-50 py-8 h-full">
       <CardHeader className="px-8">
         <div className="rounded-lg border border-gray-300 p-2 mb-6 bg-white w-14 h-14 flex items-center justify-center">
           <TrendingUp className="h-7 w-7 text-gray-600" />
         </div>
         <CardTitle className="text-xl font-semibold leading-[30px]">
-          EHV Power Transformers
+          {opportunity.title}
         </CardTitle>
         <CardDescription className="text-md text-gray-600 leading-[24px]">
-          High-voltage transformers with strong demand and localization
-          potential in manufacturing and services.
+          {opportunity.description}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-2 px-8 leading-[24px]">
         <div className="flex justify-between">
           <span className="text-sm text-gray-600">Spend (SAR)</span>
-          <span className="text-md font-semibold">12-16B</span>
+          <span className="text-md font-semibold">
+            {opportunity.spendRange}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-sm text-gray-600">Quantity (Units):</span>
-          <span className="text-md font-semibold">550-750</span>
+          <span className="text-md font-semibold">
+            {opportunity.quantityRange}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-sm text-gray-600">Local suppliers:</span>
-          <span className="text-md font-semibold">0</span>
+          <span className="text-md font-semibold">
+            {opportunity.localSuppliers}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-sm text-gray-600">Global suppliers:</span>
-          <span className="text-md font-semibold">5</span>
+          <span className="text-md font-semibold">
+            {opportunity.globalSuppliers}
+          </span>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between gap-4 px-8">
+      <CardFooter className="flex justify-between gap-4 px-8 mt-auto">
         <Button variant="outlined" color="gray" className="flex-1">
           View Details
         </Button>

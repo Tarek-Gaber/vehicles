@@ -3,9 +3,28 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import OpportunityCard from "@/components/OpportunityCard";
+import { useSiteOpportunities } from "@/api/queries";
+import { motion } from "framer-motion";
+import { staggerItemVariants } from "@/lib/animations";
+
+// Custom stagger container with longer delay for more noticeable effect
+const cardStaggerContainer = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.15, // 150ms delay between each card
+      delayChildren: 0,
+    },
+  },
+};
 
 export function OpportunitiesPage() {
   const [localSearchValue, setLocalSearchValue] = useState("");
+
+  // Fetch site opportunities using the query hook
+  const { data, isLoading, isError } = useSiteOpportunities({
+    search: localSearchValue,
+  });
 
   return (
     <Container>
@@ -28,11 +47,35 @@ export function OpportunitiesPage() {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-x-8 gap-y-12 mb-16">
-        <OpportunityCard />
-        <OpportunityCard />
-        <OpportunityCard />
-      </div>
+      <motion.div
+        key={isLoading ? "loading" : "loaded"}
+        className="grid grid-cols-3 gap-x-8 gap-y-12 mb-16"
+        variants={cardStaggerContainer}
+        initial="initial"
+        animate="animate"
+      >
+        {isLoading ? (
+          Array.from({ length: 9 }).map((_, index) => (
+            <OpportunityCard key={`skeleton-${index}`} isLoading={true} />
+          ))
+        ) : isError ? (
+          <div className="col-span-3 text-center py-12">
+            <p className="text-red-600">
+              Failed to load opportunities. Please try again.
+            </p>
+          </div>
+        ) : data?.data && data.data.length > 0 ? (
+          data.data.map((opportunity) => (
+            <motion.div key={opportunity.id} variants={staggerItemVariants}>
+              <OpportunityCard opportunity={opportunity} />
+            </motion.div>
+          ))
+        ) : (
+          <div className="col-span-3 text-center py-12">
+            <p className="text-gray-600">No opportunities found.</p>
+          </div>
+        )}
+      </motion.div>
     </Container>
   );
 }

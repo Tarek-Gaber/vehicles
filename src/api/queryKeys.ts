@@ -31,4 +31,15 @@ export const queryKeys = {
     detail: (id: string | number) =>
       [...queryKeys.investors.details(), id] as const,
   },
+
+  // Site Opportunities keys
+  siteOpportunities: {
+    all: ['siteOpportunities'] as const,
+    lists: () => [...queryKeys.siteOpportunities.all, 'list'] as const,
+    list: (filters?: Record<string, any>) =>
+      [...queryKeys.siteOpportunities.lists(), { filters }] as const,
+    details: () => [...queryKeys.siteOpportunities.all, 'detail'] as const,
+    detail: (id: string | number) =>
+      [...queryKeys.siteOpportunities.details(), id] as const,
+  },
 } as const;
