@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/container";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import OpportunityCard from "@/components/OpportunityCard";
 import { useSiteOpportunities } from "@/api/queries";
 import { motion } from "framer-motion";
@@ -20,10 +20,20 @@ const cardStaggerContainer = {
 
 export function OpportunitiesPage() {
   const [localSearchValue, setLocalSearchValue] = useState("");
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchValue(localSearchValue);
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timer);
+  }, [localSearchValue]);
 
   // Fetch site opportunities using the query hook
   const { data, isLoading, isError } = useSiteOpportunities({
-    search: localSearchValue,
+    search: debouncedSearchValue,
   });
 
   return (
