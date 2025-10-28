@@ -46,16 +46,16 @@ export function OpportunitiesPage() {
 
   return (
     <Container>
-      <div className="pt-20 mb-14">
-        <h1 className="text-5xl font-semibold leading-15 mb-2">
+      <div className="pt-8 md:pt-16 lg:pt-20 mb-8 md:mb-12 lg:mb-14">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight md:leading-[3.75rem] mb-2">
           Opportunities
         </h1>
-        <p className="text-xl text-gray-600">
+        <p className="text-base md:text-lg lg:text-xl text-gray-600">
           We are always looking for talented individuals to join our team.
         </p>
       </div>
 
-      <div className="relative flex-1 min-w-[250px] max-w-sm mb-12">
+      <div className="relative flex-1 w-full md:max-w-sm mb-8 md:mb-10 lg:mb-12">
         <Search className="absolute start-[21px] top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground -translate-x-1/2" />
         <Input
           type="text"
@@ -67,7 +67,7 @@ export function OpportunitiesPage() {
 
       <motion.div
         key={isLoading ? "loading" : "loaded"}
-        className="grid grid-cols-3 gap-x-8 gap-y-12 mb-16"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-x-8 lg:gap-y-12 mb-10 md:mb-12 lg:mb-16"
         variants={cardStaggerContainer}
         initial="initial"
         animate="animate"
@@ -77,7 +77,7 @@ export function OpportunitiesPage() {
             <OpportunityCard key={`skeleton-${index}`} isLoading={true} />
           ))
         ) : isError ? (
-          <div className="col-span-3 text-center py-12">
+          <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
             <p className="text-red-600">
               Failed to load opportunities. Please try again.
             </p>
@@ -89,7 +89,7 @@ export function OpportunitiesPage() {
             </motion.div>
           ))
         ) : (
-          <div className="col-span-3 text-center py-12">
+          <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
             <p className="text-gray-600">No opportunities found.</p>
           </div>
         )}
@@ -101,7 +101,7 @@ export function OpportunitiesPage() {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
-          className="mb-16"
+          className="mb-10 md:mb-12 lg:mb-16"
         />
       )}
     </Container>
