@@ -4,6 +4,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 
 export function LanguageSwitcher() {
   const { t, toggleLanguage } = useTranslation();
+  console.log(t)
 
   return (
     <Button
