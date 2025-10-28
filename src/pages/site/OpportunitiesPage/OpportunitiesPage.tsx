@@ -6,6 +6,7 @@ import OpportunityCard from "@/components/OpportunityCard";
 import { useSiteOpportunities } from "@/api/queries";
 import { motion } from "framer-motion";
 import { staggerItemVariants } from "@/lib/animations";
+import { Pagination } from "@/components/ui/pagination";
 
 // Custom stagger container with longer delay for more noticeable effect
 const cardStaggerContainer = {
@@ -21,11 +22,13 @@ const cardStaggerContainer = {
 export function OpportunitiesPage() {
   const [localSearchValue, setLocalSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Debounce search input
+  // Debounce search input and reset page on search change
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchValue(localSearchValue);
+      setCurrentPage(1); // Reset to first page on search
     }, 500); // 500ms delay
 
     return () => clearTimeout(timer);
@@ -34,7 +37,12 @@ export function OpportunitiesPage() {
   // Fetch site opportunities using the query hook
   const { data, isLoading, isError } = useSiteOpportunities({
     search: debouncedSearchValue,
+    page: currentPage,
+    limit: 9,
   });
+
+  // Calculate total pages
+  const totalPages = data ? Math.ceil(data.total / data.limit) : 0;
 
   return (
     <Container>
@@ -86,6 +94,16 @@ export function OpportunitiesPage() {
           </div>
         )}
       </motion.div>
+
+      {/* Pagination */}
+      {!isLoading && !isError && data && totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          className="mb-16"
+        />
+      )}
     </Container>
   );
 }

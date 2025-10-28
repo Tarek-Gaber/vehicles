@@ -29,4 +29,6 @@ export interface SiteOpportunityDetailResponse {
 
 export interface SiteOpportunityFilters {
   search?: string;
+  page?: number;
+  limit?: number;
 }
