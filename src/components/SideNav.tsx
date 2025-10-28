@@ -1,123 +1,192 @@
-import React, { type ReactNode } from "react";
-
-import {
-  ChevronRight,
-  ChevronLeft,
-  LifeBuoy,
-} from "lucide-react";
-
+import React from "react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Link, useLocation } from "react-router";
 import secIcon2 from "@/assets/images/secIcon2.png";
 import secLogo from "@/assets/images/secLogo.png";
+import { motion, AnimatePresence } from "framer-motion";
+import { LifeBuoy01, ChevronLeft, ChevronRight } from "@untitledui/icons";
+import { useTranslation } from "@/hooks";
 
-import { useSidebar } from "@/components/ui/sidebar";
-import { Button } from "./ui/button";
-import { Link } from "react-router";
-import { useLocation } from "react-router";
-
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
-
-interface SideNavProps {
-  children: ReactNode;
-  navElements: {
-    Icon?: React.ElementType;
-    url: string;
-    label: string;
-    open: boolean;
-  }[];
-}
-
-const NavElement = ({
-  Icon,
-  url,
-  label,
-  open,
-}: {
+interface NavPage {
   Icon?: React.ElementType;
   url: string;
   label: string;
-  open: boolean;
-}) => {
-  const { pathname } = useLocation();
+}
 
+interface CollapsibleSidebarProps {
+  navPages: NavPage[];
+  footerPages?: NavPage[];
+  collapsedWidth?: string;
+  expandedWidth?: string;
+  className?: string;
+}
+
+export function AppSidebar({
+  navPages,
+  collapsedWidth = "4rem",
+  expandedWidth = "18rem",
+  className = "",
+}: CollapsibleSidebarProps) {
+  const { open, toggleSidebar, isMobile } = useSidebar();
+  const currentPath = useLocation();
+  const { currentLanguage: lang } = useTranslation();
+  const isRTL = lang === "ar";
   return (
-    <div className="w-full px-2">
-      <Link className="w-full" to={url}>
-        <div
-          className={`w-full px-2 flex items-center gap-2 justify-start rounded-md h-10 ${
-            pathname === url ? "bg-[#F5F5F5]" : ""
-          }`}
+    <motion.div
+      animate={{ width: open ? expandedWidth : collapsedWidth }}
+      transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+      className="h-full"
+    >
+      <Sidebar
+        collapsible="icon"
+        side={isRTL ? "right" : "left"}
+        className={cn(
+          "border-r bg-background transition-all duration-300 ",
+          className
+        )}
+      >
+        {/* HEADER */}
+        <SidebarHeader
+          className={`relative pt-3 pb-5  ${open ? "px-5" : " px-3"}`}
         >
-          {Icon && <Icon className=" h-4 w-4" />}
-          {open && label}
-        </div>
-      </Link>
-    </div>
-  );
-};
-
-const SideNav: React.FC<SideNavProps> = ({ children, navElements }) => {
-  const { toggleSidebar, open } = useSidebar();
-
-  return (
-    <div>
-      <SidebarProvider>
-        <Sidebar
-          className="relative select-none !cursor-default !bg-white
-             !block md:!flex
-             transition-[width] duration-300
-             data-[state=collapsed]:!w-16
-             data-[state=expanded]:!w-64"
-          collapsible="icon"
-        >
-          <Button
+          {!isMobile && <Button
+            variant="ghost"
+            size="icon"
+            className={`absolute top-4  ${
+              isRTL ? "-left-8" : "right-0"
+            } translate-x-1/2 z-10 rounded-full h-8 w-8 bg-background shadow hover:bg-background text-foreground`}
             onClick={toggleSidebar}
-            className="absolute top-3 right-0 translate-x-1/2 rounded-full h-8 w-8 bg-white shadow-md hover:bg-white text-black cursor-pointer"
           >
-            {open ? (
-              <ChevronLeft className="w-8 h-8" />
+            {open  ? (
+              isRTL ? (
+                <ChevronRight className="h-4 w-4" />
+              ) : (
+                <ChevronLeft className="h-4 w-4" />
+              )
+            ) : isRTL ? (
+              <ChevronLeft className="h-4 w-4" />
             ) : (
-              <ChevronRight className="w-8 h-8" />
+              <ChevronRight className="h-4 w-4" />
             )}
-          </Button>
+          </Button>}
 
-          <SidebarHeader>
-            <img src={open ? secLogo : secIcon2} className="h-10 w-fit" />
-          </SidebarHeader>
+          <motion.img
+            key={"icon"}
+            src={isMobile ? secLogo : open  ? secLogo : secIcon2}
+            alt="Logo"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="h-12 w-fit object-contain"
+          />
+        </SidebarHeader>
 
-          <SidebarContent className="flex flex-col gap-2 mt-6">
-            {navElements.map((ele) => (
-              <NavElement
-                url={ele.url}
-                label={ele.label}
-                Icon={ele.Icon}
-                open={open}
-              />
-            ))}
-          </SidebarContent>
+        {/* MAIN CONTENT */}
+        <SidebarContent className="w-full">
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu className="flex flex-col items-center gap-2">
+                {navPages.map((page) => {
+                  const Icon = page.Icon;
+                  const isActive = currentPath.pathname === page.url;
+                  return (
+                    <SidebarMenuItem
+                      key={page.url}
+                      className={`w-full ${
+                       isMobile ? "" : open ? "" : "flex items-center justify-center"
+                      }`}
+                    >
+                      <Link
+                        to={page.url}
+                        className={cn(
+                          "flex items-center gap-3 h-10 rounded-md transition-colors p-2",
+                          isMobile ? "" : open ? "" : "justify-center w-10",
+                          isActive
+                            ? "bg-accent text-accent-foreground"
+                            : "hover:bg-accent/50"
+                        )}
+                      >
+                        {Icon && <Icon className="!h-5 !w-5" />}
 
-          <SidebarFooter className=" w-full">
-            <NavElement
-              url="/support"
-              label="Support"
-              Icon={LifeBuoy}
-              open={open}
-            />
-          </SidebarFooter>
-        </Sidebar>
-        <SidebarInset className=" bg-[#F9FAFA]">{children}</SidebarInset>
-      </SidebarProvider>
-    </div>
+                        <AnimatePresence>
+                          {( open || isMobile ) && (
+                            <motion.span
+                              key={page.label}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -10 }}
+                              transition={{ duration: 0.25 }}
+                              className="text-sm truncate"
+                            >
+                              {page.label}
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
+                      </Link>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem
+              className={`${
+                isMobile ? "" : open ? "" : "flex items-center justify-center w-full"
+              }`}
+            >
+              <SidebarMenuButton
+                asChild
+                tooltip={"Support"}
+                className={`flex items-center h-auto ${
+                  isMobile ? "" : open ? "" : "justify-center items-center w-full"
+                }`}
+              >
+                <Link
+                  to={"/support"}
+                  className={cn(
+                    "flex items-center gap-3 !p-2 h-auto rounded-md transition-colors",
+                    isMobile ? "" : open ? "" : "!w-10 !h-10 !p-2"
+                  )}
+                >
+                  <LifeBuoy01 className="!h-5 !w-5" />
+                  <AnimatePresence>
+                    {( open || isMobile ) && (
+                      <motion.span
+                        key="support-label"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.25 }}
+                        className="text-sm truncate"
+                      >
+                        Support
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+      </Sidebar>
+    </motion.div>
   );
-};
-
-export default SideNav;
-
+}

@@ -13,7 +13,7 @@ import {
   SignupPage,
   ForgotPasswordPage,
   ResetpasswordPage,
-} from "@/pages/auth";
+} from "@/pages/Auth";
 
 // site pages
 import { OpportunitiesPage, OpportunityDetailsPage } from "@/pages/site";
@@ -100,7 +100,17 @@ export const router = createBrowserRouter([
     element: <Navigate to="/" replace />,
   },
   {
-    path: "/drafts",
-    element: <DraftPage />,
+    path: "/admin",
+    element : <AdminLayout/> ,
+    children : [
+      {
+        path : "users",
+        element : <DraftPage />
+      }
+    ]
   },
+  {
+    path : "/Drafts",
+    element: <DraftPage />,
+  }
 ]);
