@@ -167,4 +167,7 @@ export interface DataTableProps<TData = any> {
   onRowClick?: (row: TData) => void;
   stickyHeader?: boolean;
   className?: string;
+
+  // Animation
+  animated?: boolean;
 }

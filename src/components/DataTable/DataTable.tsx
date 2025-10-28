@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import {
   Table,
@@ -50,6 +51,9 @@ export function DataTable<TData = any>({
   onRowClick,
   stickyHeader = true,
   className,
+
+  // Animation
+  animated = true,
 }: DataTableProps<TData>) {
   // Local state
   const [searchValue, setSearchValue] = useState("");
@@ -346,12 +350,23 @@ export function DataTable<TData = any>({
               const rowId = getRowId(row);
               const isSelected = selectedRows.has(rowId);
 
+              const MotionTableRow = animated ? motion(TableRow) : TableRow;
+
               return (
-                <TableRow
+                <MotionTableRow
                   key={rowId}
                   data-state={isSelected ? "selected" : undefined}
                   onClick={() => onRowClick?.(row)}
                   className={cn(onRowClick && "cursor-pointer")}
+                  {...(animated && {
+                    initial: { opacity: 0, y: 20 },
+                    animate: { opacity: 1, y: 0 },
+                    transition: {
+                      duration: 0.3,
+                      delay: index * 0.1, // Stagger delay (same as staggerChildren in animations.ts)
+                      ease: "easeOut",
+                    },
+                  })}
                 >
                   {/* Selection checkbox */}
                   {selectable && (
@@ -378,7 +393,7 @@ export function DataTable<TData = any>({
                       {renderCell(row, column, index)}
                     </TableCell>
                   ))}
-                </TableRow>
+                </MotionTableRow>
               );
             })}
           </TableBody>
