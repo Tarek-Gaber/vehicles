@@ -10,7 +10,7 @@ import { useBreakpoint } from "@/hooks/useBreakpoints";
 import { useState } from "react";
 import { useEffect } from "react";
 const AdminPages = [
-  { url: "/admin/opportunity", Icon: Lightbulb02, label: "Opportunity" },
+  { url: "/admin/opportunities", Icon: Lightbulb02, label: "Opportunity" },
   { url: "/admin/users", Icon: Users01, label: "Users" },
   { url: "/admin/settings", Icon: Settings02, label: "Settings" },
 ];
