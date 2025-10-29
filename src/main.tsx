@@ -9,7 +9,8 @@ import {
   ReduxProvider,
   ThemeProvider,
 } from "./providers";
-import { Router } from "./router";
+import { router } from "./router";
+import { RouterProvider } from "react-router";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -17,7 +18,7 @@ createRoot(document.getElementById("root")!).render(
       <ReduxProvider>
         <QueryProvider>
           <DirectionProvider>
-            <Router />
+            <RouterProvider router={router}></RouterProvider>
             <Toaster position="top-right" />
           </DirectionProvider>
         </QueryProvider>
