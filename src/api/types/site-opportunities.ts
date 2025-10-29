@@ -2,6 +2,11 @@
  * Site Opportunities API types
  */
 
+export interface LocalizationArea {
+  title: string;
+  items?: string[];
+}
+
 export interface SiteOpportunity {
   id: string | number;
   title: string;
@@ -12,6 +17,7 @@ export interface SiteOpportunity {
   globalSuppliers: number;
   icon?: string;
   category?: string;
+  localizationAreas?: LocalizationArea[];
   createdAt: string;
   updatedAt: string;
 }

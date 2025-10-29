@@ -23,6 +23,35 @@ const mockSiteOpportunities: SiteOpportunity[] = [
     globalSuppliers: 5,
     icon: 'TrendingUp',
     category: 'Energy Infrastructure',
+    localizationAreas: [
+      {
+        title: 'Design & Engineering',
+      },
+      {
+        title: 'Sourcing',
+        items: ['Silicon steel'],
+      },
+      {
+        title: 'Manufacturing',
+        items: [
+          'Core manufacturing',
+          'Winding of Cu/Al conductors',
+          'Insulation wrapping',
+          'Coil drying',
+          'Tank fabrication etc.',
+        ],
+      },
+      {
+        title: 'Assembly & Testing',
+        items: [
+          'Assemble the reactor with core, windings, and other accessories',
+          'Conduct required tests to ensure safety and performance standards are met.',
+        ],
+      },
+      {
+        title: 'After Sales Services',
+      },
+    ],
     createdAt: '2024-01-15T00:00:00Z',
     updatedAt: '2024-01-15T00:00:00Z',
   },
@@ -36,6 +65,33 @@ const mockSiteOpportunities: SiteOpportunity[] = [
     globalSuppliers: 12,
     icon: 'Sun',
     category: 'Renewable Energy',
+    localizationAreas: [
+      {
+        title: 'Research & Development',
+        items: ['Solar cell efficiency research', 'New materials development'],
+      },
+      {
+        title: 'Manufacturing',
+        items: [
+          'Solar cell production',
+          'Panel assembly',
+          'Glass and frame manufacturing',
+          'Junction box assembly',
+        ],
+      },
+      {
+        title: 'Installation & Integration',
+        items: [
+          'Mounting systems installation',
+          'Grid integration services',
+          'System commissioning',
+        ],
+      },
+      {
+        title: 'Maintenance & Support',
+        items: ['Regular maintenance', 'Performance monitoring', 'Warranty services'],
+      },
+    ],
     createdAt: '2024-02-20T00:00:00Z',
     updatedAt: '2024-02-20T00:00:00Z',
   },
@@ -62,6 +118,30 @@ const mockSiteOpportunities: SiteOpportunity[] = [
     globalSuppliers: 6,
     icon: 'Wind',
     category: 'Renewable Energy',
+    localizationAreas: [
+      {
+        title: 'Component Manufacturing',
+        items: [
+          'Blade manufacturing',
+          'Tower fabrication',
+          'Nacelle assembly',
+          'Generator production',
+        ],
+      },
+      {
+        title: 'Installation Services',
+        items: ['Site preparation', 'Turbine installation', 'Grid connection'],
+      },
+      {
+        title: 'Operations & Maintenance',
+        items: [
+          'Preventive maintenance',
+          'Condition monitoring',
+          'Spare parts supply',
+          'Emergency repairs',
+        ],
+      },
+    ],
     createdAt: '2024-01-25T00:00:00Z',
     updatedAt: '2024-01-25T00:00:00Z',
   },
