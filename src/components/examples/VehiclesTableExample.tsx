@@ -245,6 +245,7 @@ export function VehiclesTableExample() {
             currentPage: data?.pagination.currentPage || 1,
             totalPages: data?.pagination.totalPages || 1,
           }}
+        
           onPageChange={table.setPage}
           searchable
           searchPlaceholder="Search vehicles by name or model..."
@@ -252,7 +253,7 @@ export function VehiclesTableExample() {
           onFilterChange={table.setFilters}
           sortable
           onSortChange={table.setSort}
-          selectable
+          
           selectedRows={selectedRows}
           onSelectionChange={setSelectedRows}
           rowKey="id"
