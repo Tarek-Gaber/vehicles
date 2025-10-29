@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { GuestRoute } from "./GuestRoute";
 import { SiteRoute } from "./SiteRoute";
+import type { RouteHandle } from "./types";
 import OpportunityPage from "@/pages/admin/OpportunityPage";
 import UsersPage from "@/pages/admin/usersPage";
 import SettingsPage from "@/pages/admin/SettingsPage";
@@ -15,7 +16,7 @@ import {
   SignupPage,
   ForgotPasswordPage,
   ResetpasswordPage,
-} from "@/pages/Auth";
+} from "@/pages/auth";
 
 // site pages
 import { OpportunitiesPage, OpportunityDetailsPage } from "@/pages/site";
@@ -82,6 +83,7 @@ export const router = createBrowserRouter([
             <DashboardPage />
           </ProtectedRoute>
         ),
+        // handle: { hideLayout: true } as RouteHandle,
       },
       {
         path: "/admin/opportunities/:id",
@@ -90,28 +92,34 @@ export const router = createBrowserRouter([
             <AdminOpportunityDetailsPage />
           </ProtectedRoute>
         ),
+        // Example: Uncomment to hide entire layout (sidebar + header)
+        // handle: { hideLayout: true } as RouteHandle,
       },
       {
         path: "/admin/opportunities",
         element: (
           // <ProtectedRoute roles="admin">
-            <OpportunityPage />
+          <OpportunityPage />
           // </ProtectedRoute>
         ),
+        // Example: Uncomment to hide only the sidebar
+        // handle: { hideSidebar: true } as RouteHandle,
       },
       {
         path: "/admin/users",
         element: (
           // <ProtectedRoute roles="admin">
-            <UsersPage />
+          <UsersPage />
           // </ProtectedRoute>
         ),
+        // Example: Uncomment to hide only the header
+        // handle: { hideHeader: true } as RouteHandle,
       },
-       {
+      {
         path: "/admin/settings",
         element: (
           // <ProtectedRoute roles="admin">
-            <SettingsPage />
+          <SettingsPage />
           // </ProtectedRoute>
         ),
       },
@@ -127,16 +135,16 @@ export const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element : <AdminLayout/> ,
-    children : [
+    element: <AdminLayout />,
+    children: [
       {
-        path : "users",
-        element : <DraftPage />
-      }
-    ]
+        path: "users",
+        element: <DraftPage />,
+      },
+    ],
   },
   {
-    path : "/Drafts",
+    path: "/Drafts",
     element: <DraftPage />,
-  }
+  },
 ]);
