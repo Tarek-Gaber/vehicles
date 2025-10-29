@@ -2,7 +2,9 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { GuestRoute } from "./GuestRoute";
 import { SiteRoute } from "./SiteRoute";
-
+import OpportunityPage from "@/pages/admin/OpportunityPage";
+import UsersPage from "@/pages/admin/usersPage";
+import SettingsPage from "@/pages/admin/SettingsPage";
 // layouts
 import { AuthLayout, AdminLayout, SiteLayout } from "@/components/layout";
 
@@ -87,6 +89,30 @@ export const router = createBrowserRouter([
           <ProtectedRoute roles="admin">
             <AdminOpportunityDetailsPage />
           </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/opportunities",
+        element: (
+          // <ProtectedRoute roles="admin">
+            <OpportunityPage />
+          // </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin/users",
+        element: (
+          // <ProtectedRoute roles="admin">
+            <UsersPage />
+          // </ProtectedRoute>
+        ),
+      },
+       {
+        path: "/admin/settings",
+        element: (
+          // <ProtectedRoute roles="admin">
+            <SettingsPage />
+          // </ProtectedRoute>
         ),
       },
     ],
