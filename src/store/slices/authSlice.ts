@@ -11,13 +11,14 @@ interface AuthState {
   isLoading: boolean;
 }
 
-// Check for existing token on initialization
+// Check for existing token and user data on initialization
 const hasToken = tokenManager.hasValidToken();
+const storedUser = tokenManager.getUserData();
 
 const initialState: AuthState = {
-  user: null,
-  isAuthenticated: hasToken,
-  isLoading: hasToken, // Loading if token exists (will need to fetch user)
+  user: storedUser,
+  isAuthenticated: hasToken && !!storedUser,
+  isLoading: false, // Start as false; loading states managed by async actions
 };
 
 export const authSlice = createSlice({

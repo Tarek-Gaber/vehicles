@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import OpportunityFilter from "./components/OpportunityFilter";
 import OpportunityCard from "./components/OpportunityCard";
 import Pagination from "./components/Pagination";
+import { useNavigate } from "react-router";
+
 const OpportunityPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className=" h-full w-full  flex flex-col gap-5">
       <div className="w-full flex items-center justify-between">
@@ -13,7 +17,9 @@ const OpportunityPage = () => {
             Explore our investment opportunities
           </p>
         </div>
-        <Button>+ Add New Opportunity </Button>
+        <Button onClick={() => navigate("/admin/opportunities/new")}>
+          + Add New Opportunity
+        </Button>
       </div>
       <div className=" w-full flex items-center gap-5    ">
         {" "}
