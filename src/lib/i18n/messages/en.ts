@@ -5,6 +5,8 @@ import messages from './en/messages.json';
 import sidebar from './en/sidebar.json';
 import validation from './en/validation.json';
 import dashboard from './en/pages/dashboard.json';
+import opportunities from './en/pages/opportunities.json';
+import opportunityDetails from './en/pages/opportunityDetails.json';
 
 export default {
   auth,
@@ -15,5 +17,7 @@ export default {
   validation,
   pages: {
     dashboard,
+    opportunities,
+    opportunityDetails,
   },
 } as const;

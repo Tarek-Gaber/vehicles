@@ -18,17 +18,21 @@ import {
   CheckCircle,
 } from "@untitledui/icons";
 import { useSiteOpportunity } from "@/api/queries/site-opportunities";
+import { useTranslation } from "@/hooks";
 
 export function OpportunityDetailsPage() {
+  const { t } = useTranslation();
   const { id } = useParams();
-  const { data, isLoading, isError, error } = useSiteOpportunity(id || '');
+  const { data, isLoading, isError, error } = useSiteOpportunity(id || "");
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Container>
           <div className="text-center">
-            <div className="text-lg text-gray-600">Loading opportunity details...</div>
+            <div className="text-lg text-gray-600">
+              {t("pages.opportunityDetails.loading")}
+            </div>
           </div>
         </Container>
       </div>
@@ -41,10 +45,13 @@ export function OpportunityDetailsPage() {
         <Container>
           <div className="text-center">
             <div className="text-lg text-red-600">
-              Error: {error instanceof Error ? error.message : 'Failed to load opportunity'}
+              {t("pages.opportunityDetails.error")}:{" "}
+              {error instanceof Error
+                ? error.message
+                : t("pages.opportunityDetails.errorMessage")}
             </div>
             <Button size="md" asChild className="mt-4">
-              <Link to="/opportunities">Back to Opportunities</Link>
+              <Link to="/opportunities">{t("pages.opportunityDetails.backToOpportunities")}</Link>
             </Button>
           </div>
         </Container>
@@ -57,9 +64,9 @@ export function OpportunityDetailsPage() {
       <div className="min-h-screen flex items-center justify-center">
         <Container>
           <div className="text-center">
-            <div className="text-lg text-gray-600">Opportunity not found</div>
+            <div className="text-lg text-gray-600">{t("pages.opportunityDetails.notFound")}</div>
             <Button size="md" asChild className="mt-4">
-              <Link to="/opportunities">Back to Opportunities</Link>
+              <Link to="/opportunities">{t("pages.opportunityDetails.backToOpportunities")}</Link>
             </Button>
           </div>
         </Container>
@@ -77,8 +84,8 @@ export function OpportunityDetailsPage() {
             to="/opportunities"
             className="text-primary font-semibold flex items-center mb-6"
           >
-            <ArrowLeft className="w-5 h-5 me-1.5" />
-            Back to Opportunities
+            <ArrowLeft className="w-5 h-5 me-1.5 directional-icon" />
+            {t("pages.opportunityDetails.backToOpportunities")}
           </Link>
           <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6 md:mb-8 gap-4 md:gap-6">
             <div className="flex-1">
@@ -90,7 +97,9 @@ export function OpportunityDetailsPage() {
               </p>
             </div>
             <Button size="md" asChild className="w-full md:w-auto md:shrink-0">
-              <Link to={`/login?opportunityId=${opportunity.id}`}>Apply Now</Link>
+              <Link to={`/login?opportunityId=${opportunity.id}`}>
+                {t("pages.opportunityDetails.applyNow")}
+              </Link>
             </Button>
           </div>
         </div>
@@ -98,10 +107,10 @@ export function OpportunityDetailsPage() {
         <div className="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-16 pb-8 md:pb-12 lg:pb-16">
           <div className="flex-1">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 leading-tight mb-3 md:mb-2">
-              Forecasted SEC Demand (2024 - 2030)
+              {t("pages.opportunityDetails.demandTitle")}
             </h2>
             <p className="text-sm md:text-base text-gray-600 leading-6 mb-4 md:mb-6">
-              * Demand numbers provided here are estimated and subject to change
+              {t("pages.opportunityDetails.demandDisclaimer")}
             </p>
 
             <motion.div
@@ -117,7 +126,7 @@ export function OpportunityDetailsPage() {
                       <CurrencyDollarCircle className="h-5 w-5 text-white" />
                     </div>
                     <p className="text-sm font-semibold text-gray-600 leading-5 mb-2">
-                      Spend (SAR)
+                      {t("pages.opportunityDetails.spend")}
                     </p>
                     <div className="text-3xl font-semibold leading-9">
                       {opportunity.spendRange}
@@ -132,7 +141,7 @@ export function OpportunityDetailsPage() {
                       <Data className="h-5 w-5 text-white" />
                     </div>
                     <p className="text-sm font-semibold text-gray-600 leading-5 mb-2">
-                      Quantity (Units)
+                      {t("pages.opportunityDetails.quantity")}
                     </p>
                     <div className="text-3xl font-semibold leading-9">
                       {opportunity.quantityRange}
@@ -143,7 +152,7 @@ export function OpportunityDetailsPage() {
             </motion.div>
 
             <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mt-8 md:mt-10 lg:mt-12">
-              SEC Current Supplier Base
+              {t("pages.opportunityDetails.supplierBaseTitle")}
             </h2>
             <motion.div
               className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4"
@@ -158,9 +167,11 @@ export function OpportunityDetailsPage() {
                       <Flag02 className="h-5 w-5 text-white" />
                     </div>
                     <p className="text-sm font-semibold text-gray-600 leading-5 mb-2">
-                      Local
+                      {t("pages.opportunityDetails.local")}
                     </p>
-                    <div className="text-3xl font-semibold leading-9">{opportunity.localSuppliers}</div>
+                    <div className="text-3xl font-semibold leading-9">
+                      {opportunity.localSuppliers}
+                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -171,9 +182,11 @@ export function OpportunityDetailsPage() {
                       <Globe04 className="h-5 w-5 text-white" />
                     </div>
                     <p className="text-sm font-semibold text-gray-600 leading-5 mb-2">
-                      Global
+                      {t("pages.opportunityDetails.global")}
                     </p>
-                    <div className="text-3xl font-semibold leading-9">{opportunity.globalSuppliers}</div>
+                    <div className="text-3xl font-semibold leading-9">
+                      {opportunity.globalSuppliers}
+                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -189,46 +202,50 @@ export function OpportunityDetailsPage() {
           </div>
         </div>
 
-        {opportunity.localizationAreas && opportunity.localizationAreas.length > 0 && (
-          <div className="pt-8 md:pt-12 lg:pt-16 pb-12 md:pb-16 lg:pb-20">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-4 md:mb-5 lg:mb-6">
-              Localization Opportunity Areas
-            </h2>
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 mt-4 md:mt-6"
-              variants={staggerContainerVariants}
-              initial="initial"
-              animate="animate"
-            >
-              {opportunity.localizationAreas.map((area, index) => (
-                <motion.div key={index} variants={staggerItemVariants}>
-                  <Card className="bg-gray-50 min-h-[300px]">
-                    <CardContent>
-                      <div className="flex items-center justify-center w-10 h-10 mb-4 bg-orange-500 rounded-lg shadow-xs outline outline-2 outline-offset-[-2px] outline-white/12 border border-white/10">
-                        <Lightbulb02 className="h-5 w-5 text-white" />
-                      </div>
-                      <p className="font-semibold text-gray-900 leading-6 mb-4">
-                        {area.title}
-                      </p>
-                      {area.items && area.items.length > 0 && (
-                        <ul className="space-y-3 text-gray-600">
-                          {area.items.map((item, itemIndex) => (
-                            <li key={itemIndex} className="flex items-center gap-3">
-                              <CheckCircle className="h-5 w-5 text-primary shrink-0" />
-                              <span className="text-sm text-gray-600 leading-5">
-                                {item}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        )}
+        {opportunity.localizationAreas &&
+          opportunity.localizationAreas.length > 0 && (
+            <div className="pt-8 md:pt-12 lg:pt-16 pb-12 md:pb-16 lg:pb-20">
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-4 md:mb-5 lg:mb-6">
+                {t("pages.opportunityDetails.localizationAreasTitle")}
+              </h2>
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 mt-4 md:mt-6"
+                variants={staggerContainerVariants}
+                initial="initial"
+                animate="animate"
+              >
+                {opportunity.localizationAreas.map((area, index) => (
+                  <motion.div key={index} variants={staggerItemVariants}>
+                    <Card className="bg-gray-50 min-h-[300px]">
+                      <CardContent>
+                        <div className="flex items-center justify-center w-10 h-10 mb-4 bg-orange-500 rounded-lg shadow-xs outline outline-2 outline-offset-[-2px] outline-white/12 border border-white/10">
+                          <Lightbulb02 className="h-5 w-5 text-white" />
+                        </div>
+                        <p className="font-semibold text-gray-900 leading-6 mb-4">
+                          {area.title}
+                        </p>
+                        {area.items && area.items.length > 0 && (
+                          <ul className="space-y-3 text-gray-600">
+                            {area.items.map((item, itemIndex) => (
+                              <li
+                                key={itemIndex}
+                                className="flex items-center gap-3"
+                              >
+                                <CheckCircle className="h-5 w-5 text-primary shrink-0" />
+                                <span className="text-sm text-gray-600 leading-5">
+                                  {item}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          )}
       </Container>
     </div>
   );

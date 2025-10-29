@@ -7,6 +7,7 @@ import { useSiteOpportunities } from "@/api/queries";
 import { motion } from "framer-motion";
 import { staggerItemVariants } from "@/lib/animations";
 import { Pagination } from "@/components/ui/pagination";
+import { useTranslation } from "@/hooks";
 
 // Custom stagger container with longer delay for more noticeable effect
 const cardStaggerContainer = {
@@ -20,6 +21,7 @@ const cardStaggerContainer = {
 };
 
 export function OpportunitiesPage() {
+  const { t } = useTranslation();
   const [localSearchValue, setLocalSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,18 +50,18 @@ export function OpportunitiesPage() {
     <Container>
       <div className="pt-8 md:pt-16 lg:pt-20 mb-8 md:mb-12 lg:mb-14">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight md:leading-[3.75rem] mb-2">
-          Opportunities
+          {t("pages.opportunities.title")}
         </h1>
         <p className="text-base md:text-lg lg:text-xl text-gray-600">
-          We are always looking for talented individuals to join our team.
+          {t("pages.opportunities.subtitle")}
         </p>
       </div>
 
       <div className="relative flex-1 w-full md:max-w-sm mb-8 md:mb-10 lg:mb-12">
-        <Search className="absolute start-[21px] top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground -translate-x-1/2" />
+        <Search className="absolute start-[21px] top-1/2 -translate-y-1/2 rtl:translate-x-1/2 ltr:-translate-x-1/2 h-5 w-5 text-muted-foreground -translate-x-1/2" />
         <Input
           type="text"
-          placeholder="Search"
+          placeholder={t("pages.opportunities.searchPlaceholder")}
           onChange={(e) => setLocalSearchValue(e.target.value)}
           className="ps-10.5 h-12 text-md"
         />
@@ -79,7 +81,7 @@ export function OpportunitiesPage() {
         ) : isError ? (
           <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
             <p className="text-red-600">
-              Failed to load opportunities. Please try again.
+              {t("pages.opportunities.errorMessage")}
             </p>
           </div>
         ) : data?.data && data.data.length > 0 ? (
@@ -90,7 +92,9 @@ export function OpportunitiesPage() {
           ))
         ) : (
           <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
-            <p className="text-gray-600">No opportunities found.</p>
+            <p className="text-gray-600">
+              {t("pages.opportunities.emptyState")}
+            </p>
           </div>
         )}
       </motion.div>
