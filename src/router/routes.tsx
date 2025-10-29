@@ -22,7 +22,7 @@ import {
 import { OpportunitiesPage, OpportunityDetailsPage } from "@/pages/site";
 
 // admin pages
-import { DashboardPage, AdminOpportunityDetailsPage } from "@/pages/admin";
+import { DashboardPage, AdminOpportunityDetailsPage, OpportunityFormPage } from "@/pages/admin";
 import { UnauthorizedPage } from "@/pages/UnauthorizedPage";
 import DraftPage from "@/pages/DraftPage";
 
@@ -84,6 +84,24 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
         // handle: { hideLayout: true } as RouteHandle,
+      },
+      {
+        path: "/admin/opportunities/new",
+        element: (
+          <ProtectedRoute roles="admin">
+            <OpportunityFormPage />
+          </ProtectedRoute>
+        ),
+        handle: { hideLayout: true } as RouteHandle,
+      },
+      {
+        path: "/admin/opportunities/:id/edit",
+        element: (
+          <ProtectedRoute roles="admin">
+            <OpportunityFormPage />
+          </ProtectedRoute>
+        ),
+        handle: { hideLayout: true } as RouteHandle,
       },
       {
         path: "/admin/opportunities/:id",
