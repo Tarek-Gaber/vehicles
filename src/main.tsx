@@ -1,12 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { Toaster } from 'react-hot-toast'
-import './index.css'
-import './lib/i18n'
-import { QueryProvider, DirectionProvider, ReduxProvider, ThemeProvider } from './providers'
-import { Router } from './router'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { Toaster } from "react-hot-toast";
+import "./index.css";
+import "./lib/i18n";
+import {
+  QueryProvider,
+  DirectionProvider,
+  ReduxProvider,
+  ThemeProvider,
+} from "./providers";
+import { Router } from "./router";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="system">
       <ReduxProvider>
@@ -18,5 +23,5 @@ createRoot(document.getElementById('root')!).render(
         </QueryProvider>
       </ReduxProvider>
     </ThemeProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);
