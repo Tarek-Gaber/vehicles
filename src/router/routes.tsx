@@ -22,9 +22,14 @@ import {
 import { OpportunitiesPage, OpportunityDetailsPage } from "@/pages/site";
 
 // admin pages
-import { DashboardPage, AdminOpportunityDetailsPage, OpportunityFormPage } from "@/pages/admin";
+import {
+  DashboardPage,
+  AdminOpportunityDetailsPage,
+  OpportunityFormPage,
+} from "@/pages/admin";
 import { UnauthorizedPage } from "@/pages/UnauthorizedPage";
 import DraftPage from "@/pages/DraftPage";
+import WizardDemo from "@/pages/examples/WizardDemo";
 
 export const router = createBrowserRouter([
   {
@@ -140,6 +145,15 @@ export const router = createBrowserRouter([
           <SettingsPage />
           // </ProtectedRoute>
         ),
+      },
+      {
+        path: "/admin/wizard",
+        element: (
+          // <ProtectedRoute roles="admin">
+          <WizardDemo />
+          // </ProtectedRoute>
+        ),
+        handle: { hideLayout: true } as RouteHandle,
       },
     ],
   }, // end admin pages

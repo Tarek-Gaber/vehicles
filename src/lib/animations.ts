@@ -278,3 +278,27 @@ export const transitions = {
     damping: 25,
   },
 };
+
+// Wizard step transition (RTL-aware, optimized for quick navigation)
+export const wizardStepVariants = (direction: 'ltr' | 'rtl' = 'ltr'): Variants => ({
+  initial: {
+    opacity: 0,
+    x: direction === 'ltr' ? 20 : -20,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.15,
+      ease: 'easeOut',
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: direction === 'ltr' ? -20 : 20,
+    transition: {
+      duration: 0.15,
+      ease: 'easeIn',
+    },
+  },
+});
