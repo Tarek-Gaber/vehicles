@@ -121,6 +121,7 @@ export function useWizard(config: WizardConfig): WizardContext {
 
   /**
    * Navigate to previous step with guards and lifecycles
+   * Note: Does NOT check canLeave - backwards navigation is always allowed
    */
   const goBack = useCallback(async () => {
     if (state === "transitioning") return;
@@ -128,19 +129,10 @@ export function useWizard(config: WizardConfig): WizardContext {
 
     try {
       setState("transitioning");
-      console.log(`[Wizard] Attempting to go back from step: ${activeStep.id}`);
+      console.log(`[Wizard] Going back from step: ${activeStep.id}`);
 
-      // Run canLeave guard
-      if (activeStep.canLeave) {
-        const canLeave = await Promise.resolve(
-          activeStep.canLeave(contextRef.current)
-        );
-        if (!canLeave) {
-          console.log(`[Wizard] Cannot leave step: ${activeStep.id}`);
-          setState("idle");
-          return;
-        }
-      }
+      // Skip canLeave validation for backwards navigation
+      // Users should always be able to go back to fix issues
 
       // Run onLeave lifecycle
       if (activeStep.onLeave) {

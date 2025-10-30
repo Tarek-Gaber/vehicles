@@ -60,7 +60,7 @@ export interface WizardStepConfig {
   // Navigation guards
   shouldSkip?(values: any): boolean | Promise<boolean>;
   canEnter?(ctx: WizardContext): boolean | Promise<boolean>;
-  canLeave?(ctx: WizardContext): boolean | Promise<boolean>;
+  canLeave?(ctx: WizardContext): boolean | Promise<boolean>; // Only checked for forward navigation (goNext), not backwards (goBack)
 
   // Lifecycle hooks
   onEnter?(ctx: WizardContext): void | Promise<void>;

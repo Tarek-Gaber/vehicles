@@ -162,11 +162,12 @@ Icons with `.directional-icon` class automatically flip in RTL:
 
 ## Lifecycle Flow
 
+### Forward Navigation (Next)
 ```
 1. User triggers action (e.g., clicks "Next")
 2. Run action guards → all must pass
 3. Execute action effects in sequence
-4. Run current step's canLeave() → must return true
+4. Run current step's canLeave() → must return true (validation)
 5. Execute current step's onLeave()
 6. Resolve next step (skip if shouldSkip() returns true)
 7. Run next step's canEnter() → must return true
@@ -174,6 +175,21 @@ Icons with `.directional-icon` class automatically flip in RTL:
 9. Execute next step's onEnter()
 10. Update UI (stepper, progress, content, footer)
 ```
+
+### Backward Navigation (Back)
+```
+1. User triggers action (e.g., clicks "Back")
+2. Run action guards → all must pass
+3. Execute action effects in sequence
+4. Skip canLeave() validation (always allow going back)
+5. Execute current step's onLeave()
+6. Resolve previous step
+7. Update active step index
+8. Execute previous step's onEnter()
+9. Update UI (stepper, progress, content, footer)
+```
+
+**Note:** `canLeave()` is **only checked for forward navigation**. This allows users to freely navigate backwards to fix validation issues.
 
 ## Examples
 

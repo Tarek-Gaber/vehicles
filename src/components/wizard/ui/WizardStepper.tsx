@@ -1,4 +1,5 @@
 import { Check, XCircle, Minus } from "@untitledui/icons";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { StepUIConfig } from "../core/types";
 
@@ -75,9 +76,16 @@ export function WizardStepper({
             {/* Connector Line */}
             {showConnector && (
               <div
-                className="absolute top-[33px] start-[15px] w-[2px] h-[calc(100%-31px)] bg-[#E9EAEB] rounded-full"
+                className="absolute top-[33px] start-[15px] w-[2px] h-[calc(100%-32px)] bg-[#E9EAEB] rounded-full"
                 aria-hidden="true"
-              />
+              >
+                <span
+                  className={cn(
+                    "absolute top-0 left-0 w-full h-0 bg-primary rounded-full transition-all duration-250 ease-in-out",
+                    item.status === "completed" && "h-full"
+                  )}
+                ></span>
+              </div>
             )}
           </div>
         );
@@ -95,76 +103,121 @@ function StepIcon({ status }: { status: StepUIConfig["status"] }) {
   switch (status) {
     case "completed":
       return (
-        <div
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 500,
+            damping: 55,
+            duration: 0.9,
+          }}
           className={cn(
             baseClasses,
             "bg-primary text-primary-foreground dark:bg-primary-950/40 dark:text-primary-400"
           )}
         >
-          <Check className="size-4" />
-        </div>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{
+              delay: 0.1,
+              type: "spring",
+              stiffness: 500,
+              damping: 20,
+            }}
+          >
+            <Check className="size-4" />
+          </motion.div>
+        </motion.div>
       );
 
     case "error":
       return (
-        <div
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: [0, 1.2, 1] }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className={cn(
             baseClasses,
             "bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400"
           )}
         >
-          <XCircle className="size-4" />
-        </div>
+          <motion.div
+            animate={{ rotate: [0, -10, 10, -10, 0] }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            <XCircle className="size-4" />
+          </motion.div>
+        </motion.div>
       );
 
     case "skipped":
       return (
-        <div
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
           className={cn(
             baseClasses,
             "bg-muted text-muted-foreground border border-border"
           )}
         >
           <Minus className="size-4" />
-        </div>
+        </motion.div>
       );
 
     case "active":
       return (
-        <div
-          className={cn(
-            baseClasses,
-            "size-7.5 bg-primary text-primary-foreground ring-2 ring-primary-600 border border-[2px] border-white",
-            "dark:bg-primary-950/40 dark:text-primary-400 dark:ring-primary-400/30"
-          )}
-        >
-          <span className="w-[10px] h-[10px] rounded-full bg-primary-foreground"></span>
+        <div className="w-[32px]">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className={cn(
+              baseClasses,
+              "size-7.5 bg-primary text-primary-foreground ring-2 ring-primary-600 border border-[2px] border-white",
+              "dark:bg-primary-950/40 dark:text-primary-400 dark:ring-primary-400/30"
+            )}
+          >
+            <motion.span
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-[10px] h-[10px] rounded-full bg-primary-foreground"
+            ></motion.span>
+          </motion.div>
         </div>
       );
 
     case "disabled":
       return (
-        <div
+        <motion.div
+          initial={{ scale: 1, opacity: 0.5 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          transition={{ duration: 0.2 }}
           className={cn(
             baseClasses,
             "bg-muted/50 text-muted-foreground/50 border border-border/50"
           )}
         >
           <span className="w-[10px] h-[10px] rounded-full bg-muted/50"></span>
-        </div>
+        </motion.div>
       );
 
     case "pending":
     default:
       return (
-        <div
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           className={cn(
             baseClasses,
             "bg-white border border-[2px] border-[#E9EAEB]"
           )}
         >
           <span className="w-[10px] h-[10px] rounded-full bg-[#E9EAEB]"></span>
-        </div>
+        </motion.div>
       );
   }
 }
