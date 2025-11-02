@@ -1,4 +1,4 @@
-import type { Variants } from 'framer-motion';
+import type { Variants } from "framer-motion";
 
 /**
  * Reusable animation variants for consistent transitions
@@ -15,7 +15,7 @@ export const pageVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.4,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
   exit: {
@@ -23,7 +23,7 @@ export const pageVariants: Variants = {
     y: -20,
     transition: {
       duration: 0.3,
-      ease: 'easeIn',
+      ease: "easeIn",
     },
   },
 };
@@ -58,7 +58,7 @@ export const slideUpVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
 };
@@ -74,7 +74,7 @@ export const scaleVariants: Variants = {
     scale: 1,
     transition: {
       duration: 0.3,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
   exit: {
@@ -112,22 +112,24 @@ export const staggerItemVariants: Variants = {
 };
 
 // Slide from left (RTL/LTR aware)
-export const slideInVariants = (direction: 'ltr' | 'rtl' = 'ltr'): Variants => ({
+export const slideInVariants = (
+  direction: "ltr" | "rtl" = "ltr"
+): Variants => ({
   initial: {
     opacity: 0,
-    x: direction === 'ltr' ? -40 : 40,
+    x: direction === "ltr" ? -40 : 40,
   },
   animate: {
     opacity: 1,
     x: 0,
     transition: {
       duration: 0.5,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
   exit: {
     opacity: 0,
-    x: direction === 'ltr' ? 40 : -40,
+    x: direction === "ltr" ? 40 : -40,
     transition: {
       duration: 0.3,
     },
@@ -143,7 +145,7 @@ export const cardHoverVariants: Variants = {
     scale: 1.02,
     transition: {
       duration: 0.2,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
   tap: {
@@ -180,7 +182,7 @@ export const modalVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.3,
-      ease: 'easeOut',
+      ease: "easeOut",
     },
   },
   exit: {
@@ -189,7 +191,7 @@ export const modalVariants: Variants = {
     y: 20,
     transition: {
       duration: 0.2,
-      ease: 'easeIn',
+      ease: "easeIn",
     },
   },
 };
@@ -237,7 +239,7 @@ export const toastVariants: Variants = {
     x: 0,
     scale: 1,
     transition: {
-      type: 'spring',
+      type: "spring",
       stiffness: 500,
       damping: 30,
     },
@@ -257,24 +259,50 @@ export const toastVariants: Variants = {
 export const transitions = {
   default: {
     duration: 0.3,
-    ease: 'easeInOut',
+    ease: "easeInOut",
   },
   fast: {
     duration: 0.15,
-    ease: 'easeOut',
+    ease: "easeOut",
   },
   slow: {
     duration: 0.6,
-    ease: 'easeInOut',
+    ease: "easeInOut",
   },
   spring: {
-    type: 'spring' as const,
+    type: "spring" as const,
     stiffness: 400,
     damping: 30,
   },
   bounce: {
-    type: 'spring' as const,
+    type: "spring" as const,
     stiffness: 500,
     damping: 25,
   },
 };
+
+// Wizard step transition (RTL-aware, optimized for quick navigation)
+export const wizardStepVariants = (
+  direction: "ltr" | "rtl" = "ltr"
+): Variants => ({
+  initial: {
+    opacity: 0,
+    x: direction === "ltr" ? 20 : -20,
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.25,
+      ease: "easeOut",
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: direction === "ltr" ? -20 : 20,
+    transition: {
+      duration: 0.25,
+      ease: "easeIn",
+    },
+  },
+});

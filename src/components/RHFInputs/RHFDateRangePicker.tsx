@@ -17,6 +17,7 @@ interface RHFDateRangePickerProps {
   disabled?: boolean;
   className?: string;
   placeholder?: string;
+  disablePastDates?: boolean;
 }
 
 const RHFDateRangePicker = ({
@@ -26,6 +27,7 @@ const RHFDateRangePicker = ({
   disabled,
   className,
   placeholder = "Select date range",
+  disablePastDates = false,
 }: RHFDateRangePickerProps) => {
   const {
     control,
@@ -58,7 +60,7 @@ const RHFDateRangePicker = ({
               <PopoverTrigger asChild>
                 <Button
                   id={name}
-                  variant="outline"
+                  variant="outlined"
                   disabled={disabled}
                   className={cn(
                     "w-full justify-between text-left font-normal",
@@ -86,6 +88,7 @@ const RHFDateRangePicker = ({
                       setOpen(false); // ✅ Close on selection
                     }
                   }}
+                  disabled={disablePastDates ? { before: new Date() } : undefined}
                   numberOfMonths={2}
                   initialFocus
                 />
