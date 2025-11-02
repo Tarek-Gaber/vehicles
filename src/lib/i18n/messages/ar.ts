@@ -7,6 +7,7 @@ import validation from './ar/validation.json';
 import dashboard from './ar/pages/dashboard.json';
 import opportunities from './ar/pages/opportunities.json';
 import opportunityDetails from './ar/pages/opportunityDetails.json';
+import opportunityForm from './ar/pages/opportunityForm.json';
 
 export default {
   auth,
@@ -19,5 +20,6 @@ export default {
     dashboard,
     opportunities,
     opportunityDetails,
+    opportunityForm,
   },
 } as const;

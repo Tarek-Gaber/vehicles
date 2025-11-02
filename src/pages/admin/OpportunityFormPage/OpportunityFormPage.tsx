@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWizard } from "@/hooks";
 import { useDirection } from "@/hooks/useDirection";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   WizardShell,
   WizardContent,
@@ -14,7 +15,7 @@ import { mapStepsToUI } from "@/components/wizard";
 import { wizardStepVariants } from "@/lib/animations";
 import { opportunityWizardConfig } from "./config/wizardConfig";
 import {
-  opportunityFormSchema,
+  createOpportunityFormSchema,
   type OpportunityFormData,
 } from "./schemas/opportunitySchema";
 import { OpportunityInfoStep } from "./components/OpportunityInfoStep";
@@ -24,20 +25,38 @@ const OpportunityFormPage = () => {
   const { id } = useParams();
   const isEditMode = id && id !== "new";
   const { direction } = useDirection();
+  const { t } = useTranslation();
 
-  // React Hook Form setup
+  // React Hook Form setup with translated schema
   const form = useForm<OpportunityFormData>({
-    resolver: zodResolver(opportunityFormSchema),
+    resolver: zodResolver(createOpportunityFormSchema(t)),
     mode: "onChange",
     defaultValues: {
       opportunityTitle: "",
+      shortDescription: "",
+      spend: 0,
+      quantity: 0,
+      localSuppliers: 0,
+      globalSuppliers: 0,
+      dateRange: {
+        startDate: new Date(),
+        endDate: new Date(),
+      },
+      image: undefined,
       localizationTarget: 0,
     },
   });
 
   // Validation functions
   const validateStep1 = async () => {
-    return await form.trigger(["opportunityTitle"]);
+    return await form.trigger([
+      "opportunityTitle",
+      "spend",
+      "quantity",
+      "localSuppliers",
+      "globalSuppliers",
+      "dateRange",
+    ]);
   };
 
   const validateStep2 = async () => {
@@ -83,7 +102,7 @@ const OpportunityFormPage = () => {
           }
         >
           <WizardContent
-            title="New Opportunity"
+            title={t("pages.opportunityForm.title")}
             badges={[
               {
                 label: `Draft`,
